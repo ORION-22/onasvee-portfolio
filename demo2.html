@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Onasvee Banarse — MS CS @ UMass Amherst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    // Runs before paint — no flash
+    (function(){
+      const palettes = [
+        { name:'ferrari',       dark:'#FF2D55', dark2:'#FF6B35', light:'#CC0023', light2:'#A00018' },
+        { name:'mclaren',       dark:'#FF8000', dark2:'#FFD60A', light:'#C45E00', light2:'#8A4200' },
+        { name:'red bull',      dark:'#6AA8FF', dark2:'#FFD700', light:'#1B39A0', light2:'#0D2070' },
+        { name:'mercedes',      dark:'#00D2BE', dark2:'#C0D0CC', light:'#007A6E', light2:'#005048' },
+        { name:'alpine',        dark:'#FF87BC', dark2:'#0093CC', light:'#BE185D', light2:'#0369A1' },
+        { name:'aston martin',  dark:'#00FF87', dark2:'#00E8A0', light:'#006340', light2:'#004A2F' },
+        { name:'williams',      dark:'#37BEDD', dark2:'#7DD3FC', light:'#0047AB', light2:'#003380' },
+        { name:'haas',          dark:'#FF4444', dark2:'#CCCCCC', light:'#CC0000', light2:'#888888' },
+        { name:'kick sauber',   dark:'#39FF14', dark2:'#00C4B4', light:'#166534', light2:'#0D4A2A' },
+        { name:'racing bulls',  dark:'#7B9FFF', dark2:'#B3C6FF', light:'#2B3FAA', light2:'#1A2880' },
+      ];
+      // Pick random palette each session
+      let idx = sessionStorage.getItem('paletteIdx');
+      if(idx === null){
+        idx = Math.floor(Math.random() * palettes.length);
+        sessionStorage.setItem('paletteIdx', idx);
+      }
+      const p = palettes[+idx];
+      const r = document.documentElement;
+      // Store for later use in JS (theme switching)
+      r.dataset.palette = idx;
+      window._palette = p;
+      // Apply dark mode colors immediately
+      r.style.setProperty('--accent', p.dark);
+      r.style.setProperty('--accent2', p.dark2);
+      // Light mode values stored as data attrs, applied when theme switches
+      r.dataset.lightAccent = p.light;
+      r.dataset.lightAccent2 = p.light2;
+      r.dataset.paletteName = p.name;
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav id="navbar">
+    <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="cursor:none;">// onasvee.dev</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="colorBtn" title="Randomise accent colour" style="background:none;border:1px solid var(--border);border-radius:999px;padding:5px 10px;cursor:none;display:flex;align-items:center;gap:7px;transition:border-color 0.2s,padding 0.2s;" onmouseenter="this.style.borderColor='var(--accent)';document.getElementById('colorName').style.maxWidth='80px';document.getElementById('colorName').style.opacity='1'" onmouseleave="this.style.borderColor='var(--border)';document.getElementById('colorName').style.maxWidth='0';document.getElementById('colorName').style.opacity='0'">
+        <span id="colorDot" style="width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block;flex-shrink:0;transition:background 0.3s;"></span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:0.1em;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;transition:max-width 0.3s ease,opacity 0.3s ease;" id="colorName">ferrari</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="toggle-icon-dark">🌙</span>
+        <span class="toggle-icon-light">☀️</span>
+        <div class="toggle-knob"></div>
+      </button>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <div class="hero-tag">// system.init — open to internships & full-time roles</div>
+      <h1 class="hero-name">Onasvee<br>Banarse<span>.</span></h1>
+      <p class="hero-title" id="typed-text">MS CS @ UMass Amherst · <span class="typed-cursor">|</span></p>
+      <p class="hero-desc">
+        Engineer who spent years breaking systems at Reliance Jio so engineers could ship better ones. Now pursuing my Master's in CS combining QA depth, ML research, and software engineering to build things that are fast, reliable, and production-ready.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-frame">
+        <div class="hero-photo-inner">
+          <div class="photo-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="38" r="22" stroke="currentColor" stroke-width="3"/>
+              <path d="M10 85c0-22.1 17.9-40 40-40s40 17.9 40 40" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span>// add your-photo.jpg<br>to this folder</span>
+          </div>
+        </div>
+        <div class="photo-badge">UMass · MS CS</div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint"><div class="scroll-line"></div>scroll to explore</div>
+  </section>
+
+  <section id="about">
+    <div class="section-label reveal" data-num="01">// about.me</div>
+    <h2 class="section-title reveal">The Story<br>So <span>Far.</span></h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm <strong>Onasvee Banarse</strong>, a graduate CS student at <span class="highlight">UMass Amherst</span>, and a published researcher with a background in QA automation.</p>
+        <p>Before grad school, I was an <strong>Associate QA Engineer at Reliance Jio Platforms</strong> one of India's largest tech companies where I built Selenium frameworks, validated OAuth2/OIDC SSO flows, and cut regression effort by 10+ hours a week.</p>
+        <p>My research spans <strong>deep learning for image forensics</strong> and GANs, with three co-authored publications. I bring both engineering rigor and research curiosity to everything I build.</p>
+        <p>Based in <strong>Amherst, MA</strong> · Open to US internships & full-time roles · Available for remote.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-box"><div class="stat-num">2+</div><div class="stat-label">Years Industry QA Exp</div></div>
+        <div class="stat-box"><div class="stat-num">9.38</div><div class="stat-label">B.Tech GPA / 10</div></div>
+        <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Research Publications</div></div>
+        <div class="stat-box"><div class="stat-num">3.433</div><div class="stat-label">Master's GPA / 4</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-label reveal" data-num="02">// education</div>
+    <h2 class="section-title reveal">Where I've<br><span>Studied.</span></h2>
+    <div class="edu-grid">
+
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-degree">Master of Science — Computer Science</div>
+          <div class="edu-school">// University of Massachusetts Amherst</div>
+          <div class="edu-courses">
+            <strong>// relevant coursework</strong>
+            Machine Learning · Advanced Algorithms · Distributed Systems & Operating Systems
+          </div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-year">2024 — Dec 2027</div>
+          <div class="edu-badge">In Progress</div>
+        </div>
+      </div>
+
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-degree">B.Tech — Computer Science</div>
+          <div class="edu-school">// Savitribai Phule Pune University, India</div>
+          <div class="edu-courses">
+            <strong>// relevant coursework</strong>
+            Programming & Problem Solving · Object Oriented Programming · Principles of Programming Languages · Object oriented Modeling & Design · High Performance Computing · Data Structures and Algorithms · Theory of Computation · Design & Analysis of Algorithms · Systems Programming & Operating System · Database Management Systems · Computer Networks & Security · Distributed Systems · Data Science & Big Data Analytics
+          </div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-year">Aug 2019 — Mar 2023</div>
+          <div class="edu-badge">GPA 9.38 / 10</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-label reveal" data-num="03">// skills.stack</div>
+    <h2 class="section-title reveal">What I<br>Work <span>With.</span></h2>
+    <div class="skills-outer">
+      <div class="reveal">
+        <div class="skill-group-title">// languages</div>
+        <div class="skills-grid">
+          <span class="skill-tag accent">Python</span>
+          <span class="skill-tag accent">Java</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">C/C++</span>
+          <span class="skill-tag">SQL (PostgreSQL)</span>
+          <span class="skill-tag">Groovy</span>
+          <span class="skill-tag">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="skill-group-title">// frameworks & tools</div>
+        <div class="skills-grid">
+          <span class="skill-tag accent">Selenium</span>
+          <span class="skill-tag accent">JMeter</span>
+          <span class="skill-tag accent">SoapUI</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">Postman</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="skill-group-title">// ml / data science</div>
+        <div class="skills-grid">
+          <span class="skill-tag accent">TensorFlow</span>
+          <span class="skill-tag accent">Scikit-learn</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">pandas</span>
+          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">ResNet</span>
+          <span class="skill-tag">CNNs</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="skill-group-title">// databases</div>
+        <div class="skills-grid">
+          <span class="skill-tag accent">PostgreSQL</span>
+          <span class="skill-tag accent">CassandraDB</span>
+          <span class="skill-tag accent">MongoDB</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-label reveal" data-num="04">// work.history</div>
+    <h2 class="section-title reveal">Where I've<br>Been <span>Before.</span></h2>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="tl-year">Dec 2023 — Dec 2025</div>
+          Navi Mumbai, India
+        </div>
+        <div class="timeline-right">
+          <h3>Associate QA Engineer</h3>
+          <div class="company">// Reliance Jio Platforms Limited</div>
+          <ul>
+            <li>Built Selenium automation frameworks in Java for web testing, integrating API calls to validate backend data against UI saving <strong>10+ hours/week</strong> on regression.</li>
+            <li>Achieved <strong>85% test coverage</strong> on critical IDAM modules via JMeter, Postman, and SoapUI load & functional testing.</li>
+            <li>Validated JioID SSO end-to-end: OAuth2/OIDC flows, token handling, and multi-client configurations.</li>
+            <li>Reduced defect leakage by <strong>30%</strong> through cross-database validation (JMeter JDBC + SQL) across Cassandra and PostgreSQL.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Selenium</span><span class="tl-tag">Java</span>
+            <span class="tl-tag">JMeter</span><span class="tl-tag">SoapUI</span>
+            <span class="tl-tag">OAuth2/OIDC</span><span class="tl-tag">PostgreSQL</span>
+            <span class="tl-tag">CassandraDB</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="tl-year">Jan 2022 — Jun 2022</div>
+          Bengaluru, India
+        </div>
+        <div class="timeline-right">
+          <h3>Cyber Security Intern</h3>
+          <div class="company">// Acmegrade Pvt Ltd</div>
+          <ul>
+            <li>Conducted OWASP-methodology vulnerability assessments and penetration testing on internal web applications.</li>
+            <li>Reduced false positives by <strong>60%</strong> through Wireshark and SIEM alert tuning and traffic analysis.</li>
+            <li>Reverse-engineered malware samples to build detection signatures for internal threat intelligence systems.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">OWASP</span><span class="tl-tag">Penetration Testing</span>
+            <span class="tl-tag">Wireshark</span><span class="tl-tag">SIEM</span>
+            <span class="tl-tag">Malware Analysis</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="tl-year">Apr 2021 — Nov 2021</div>
+          India
+        </div>
+        <div class="timeline-right">
+          <h3>Data Science Intern</h3>
+          <div class="company">// RegEx Software Services</div>
+          <ul>
+            <li>Conducted EDA on the Kaggle Credit Card Fraud Detection dataset (284,807 records), improving feature selection accuracy by <strong>2.62%</strong>.</li>
+            <li>Built data visualizations with Matplotlib and Seaborn that drove key product recommendations for the risk analysis team's fraud detection thresholds.</li>
+            <li>Assisted ML model deployment on AWS EC2/S3 using Docker and Flask cutting deployment time by <strong>50%</strong>.</li>
+            <li>Final project: Credit Card Fraud Detection model achieving <strong>96% accuracy</strong> and <strong>93% reduction</strong> in false positives.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Python</span><span class="tl-tag">Scikit-learn</span>
+            <span class="tl-tag">Matplotlib</span><span class="tl-tag">Seaborn</span>
+            <span class="tl-tag">AWS EC2/S3</span><span class="tl-tag">Docker</span><span class="tl-tag">Flask</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-label reveal" data-num="05">// selected.work</div>
+    <h2 class="section-title reveal">Things I've<br><span>Built.</span></h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">// project_01 · Jul 2022 – Jul 2023 · Team of 4</div>
+        <h3 class="project-title">Image Manipulation & Forgery Detection</h3>
+        <p class="project-desc">CNN-based deep learning pipeline to detect manipulated regions in digital images. Trained on CASIA v1.0 and v2.0 datasets, covering copy-move, splicing, and retouching. ELA used for feature extraction; deployed with a Streamlit interface for real-time inference. Results consistent with 20+ state-of-the-art papers reviewed.</p>
+        <div class="project-highlight">✦ 95.30% accuracy on CASIA v1.0 · 91.31% on v2.0</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
+          <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role</span>
+          Designed and implemented the ResNet-based image classification pipeline for detecting manipulated regions, optimising performance across diverse manipulation types.
+        </div>
+        <div class="project-stack">
+          <span class="proj-tag">Python</span><span class="proj-tag">TensorFlow</span>
+          <span class="proj-tag">ResNet</span><span class="proj-tag">UNet</span>
+          <span class="proj-tag">Streamlit</span><span class="proj-tag">ELA</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/ORION-22/Image_Manipulation_Detection_Streamlit_SegematationModel.git" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+          <a href="#publications" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Published Paper</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// project_02 · Aug 2024 – Nov 2025 · Reliance Jio</div>
+        <h3 class="project-title">Data Migration Utilities</h3>
+        <p class="project-desc">REST-based migration services to move legacy CassandraDB records into restructured schemas following table field changes. Atomic PostgreSQL transactions + idempotent Cassandra writes ensure reliability. Validated with pre/post-migration checksums — zero data loss confirmed post-deployment.</p>
+        <div class="project-highlight">✦ Adopted by the backend engineering team for production use</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
+          <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role · solo ownership</span>
+          Solely designed, built, and deployed the entire migration utility. Owned the full lifecycle architecture, implementation, validation, and handoff to the backend engineering team.
+        </div>
+        <div class="project-stack">
+          <span class="proj-tag">Node.js</span><span class="proj-tag">Express.js</span>
+          <span class="proj-tag">PostgreSQL</span><span class="proj-tag">CassandraDB</span>
+          <span class="proj-tag">REST API</span>
+        </div>
+        <div class="project-links">
+          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.08em;display:flex;align-items:center;gap:6px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Private · Built at Reliance Jio
+          </span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// project_03 · Jan 2025 – Nov 2025 · Reliance Jio</div>
+        <h3 class="project-title">Test Automation Management Tool</h3>
+        <p class="project-desc">Personal POC that grew into a team-wide tool automatically organising fragmented JMeter and SoapUI test suites by module and priority tags. Groovy scripts dynamically parse test files and generate regression-ready configurations for repeatable multi-environment execution.</p>
+        <div class="project-highlight">✦ Saved 1–2 working days per release cycle · Adopted by the QA team</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
+          <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role · initiated & led</span>
+          Built the Python organiser tool independently. Also championed the migration from JMeter to SoapUI for API testing identified the opportunity, ran the POC, and introduced it to the team (concept suggested by manager). Implemented all Groovy scripting end-to-end.
+        </div>
+        <div class="project-stack">
+          <span class="proj-tag">Python</span><span class="proj-tag">JMeter</span>
+          <span class="proj-tag">SoapUI</span><span class="proj-tag">Groovy</span>
+        </div>
+        <div class="project-links">
+          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.08em;display:flex;align-items:center;gap:6px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Private · Built at Reliance Jio
+          </span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// project_04 · Sep 2020 – Apr 2021 · Team of 4</div>
+        <h3 class="project-title">Driver Drowsiness Detection</h3>
+        <p class="project-desc">Real-time computer vision system that monitors facial cues and eye movements to detect driver drowsiness and trigger alerts reducing accident risk caused by driver fatigue. Built as a 4-person team project focused on road safety.</p>
+        <div class="project-highlight">✦ Real-time EAR monitoring via facial landmark detection</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
+          <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role</span>
+          Implemented facial landmark detection using OpenCV and YOLO to monitor eye aspect ratio (EAR) for real-time drowsiness classification.
+        </div>
+        <div class="project-stack">
+          <span class="proj-tag">Python</span><span class="proj-tag">OpenCV</span>
+          <span class="proj-tag">YOLO</span><span class="proj-tag">Computer Vision</span>
+          <span class="proj-tag">Machine Learning</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/ORION-22/DRIVER_DROWSINESS_CNN_TNESORFLOW.git" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// project_05 · Sep 2021 – Nov 2021 · Team of 4</div>
+        <h3 class="project-title">PPFuel — Plastic Recycling Platform</h3>
+        <p class="project-desc">Web platform tackling plastic pollution by raising awareness around reuse, reduction, and recycling while enabling vendors to list and sell recycled plastic products directly to consumers.</p>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
+          <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role</span>
+          Developed the full front-end interface in HTML, CSS, and JavaScript ensuring a seamless experience for both vendors and customers.
+        </div>
+        <div class="project-stack">
+          <span class="proj-tag">HTML</span><span class="proj-tag">CSS</span>
+          <span class="proj-tag">JavaScript</span><span class="proj-tag">Frontend</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/ORION-22/Team_Pyrolysis.git" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="publications">
+    <div class="section-label reveal" data-num="06">// research.published</div>
+    <h2 class="section-title reveal">Published<br><span>Research.</span></h2>
+    <div class="pub-list">
+
+      <div class="pub-card reveal">
+        <div>
+          <div class="pub-title">Unmasking the Deception: An Image Manipulation Detection Using ResNet and UNet Architecture</div>
+          <div class="pub-authors"><strong>Onasvee Banarse</strong>, Harsh Shah, Kaustubh Kabra, Akash Mete</div>
+          <div class="pub-venue">International Research Journal of Engineering and Technology (IRJET) · Vol. 12, Issue 03 · <span>Mar 2025</span></div>
+          <button class="pub-view-btn" onclick="openPDF('https://www.irjet.net/archives/V12/i3/IRJET-V12I391.pdf', 'Unmasking the Deception', 'IRJET · Vol. 12, Issue 03 · Mar 2025')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            View Paper
+          </button>
+        </div>
+        <div style="text-align:right; flex-shrink:0">
+          <div class="pub-year">2025</div>
+          <div class="pub-num">01</div>
+        </div>
+      </div>
+
+      <div class="pub-card reveal">
+        <div>
+          <div class="pub-title">Exploring the Potential of Generative Adversarial Networks: A Comparative Study of GAN</div>
+          <div class="pub-authors">Harsh Shah, Kaustubh Kabra, <strong>Onasvee Banarse</strong>, Akash Mete</div>
+          <div class="pub-venue">International Research Journal of Engineering and Technology (IRJET) · Vol. 10, Issue 03 · <span>May 2023</span></div>
+          <button class="pub-view-btn" onclick="openPDF('https://www.irjet.net/archives/V10/i5/IRJET-V10I5206.pdf', 'Exploring the Potential of GANs', 'IRJET · Vol. 10, Issue 03 · May 2023')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            View Paper
+          </button>
+        </div>
+        <div style="text-align:right; flex-shrink:0">
+          <div class="pub-year">2023</div>
+          <div class="pub-num">02</div>
+        </div>
+      </div>
+
+      <div class="pub-card reveal">
+        <div>
+          <div class="pub-title">Autonomous UAV Swarms: Powering Up with AI</div>
+          <div class="pub-authors"><strong>Onasvee Banarse</strong>, Harsh Shah, Kaustubh Kabra</div>
+          <div class="pub-venue">International Journal for Research in Applied Science & Engineering Technology (IJRASET) · Vol. 11, Issue 06 · <span>Jun 2023</span></div>
+          <button class="pub-view-btn" onclick="openPDF('https://doi.org/10.22214/ijraset.2023.54336', 'Autonomous UAV Swarms: Powering Up with AI', 'IJRASET · Vol. 11, Issue 06 · Jun 2023')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            View Paper
+          </button>
+        </div>
+        <div style="text-align:right; flex-shrink:0">
+          <div class="pub-year">2023</div>
+          <div class="pub-num">03</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="section-label reveal" data-num="07">// certifications.leadership</div>
+    <h2 class="section-title reveal">Awards, Certs<br>& <span>Leadership.</span></h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;" class="reveal">
+
+      <div>
+        <div class="skill-group-title">// awards & certifications</div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+
+          <div style="background:var(--bg3);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);padding:20px 24px;display:flex;gap:16px;align-items:flex-start;">
+            <span style="font-size:20px;flex-shrink:0">⭐</span>
+            <div>
+              <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Star Performer Award</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:4px;">Reliance Jio Platforms · Jul 2025</div>
+              <div style="font-size:12px;color:var(--muted2);">Awarded by Mr. Anish Shah, President of JIO Platform Limited.</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg3);border:1px solid var(--border);padding:18px 24px;display:flex;gap:16px;align-items:flex-start;">
+            <span style="font-size:18px;flex-shrink:0">🧠</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Neural Networks and Deep Learning</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);">DeepLearning.AI / Coursera · Jun 2023</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg3);border:1px solid var(--border);padding:18px 24px;display:flex;gap:16px;align-items:flex-start;">
+            <span style="font-size:18px;flex-shrink:0">☕</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px;">AI & ML in Java · Java Programming · Java Foundations · PL/SQL</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);">Oracle Academy · 2020 – 2022</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg3);border:1px solid var(--border);padding:18px 24px;display:flex;gap:16px;align-items:flex-start;">
+            <span style="font-size:18px;flex-shrink:0">📡</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px;">AI/ML Fundamentals · Linux & Data Analytics</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);">Vodafone India · Jan – Mar 2021</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="skill-group-title">// leadership & activities</div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+
+          <div style="background:var(--bg3);border:1px solid var(--border);padding:18px 24px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;">AI ML Lead — CodeHub (Coding Club)</div>
+            <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:4px;">AISSMS Institute of Information Technology · 2022 – 2023</div>
+            <div style="font-size:12px;color:var(--muted2);">Led the AI/ML vertical of the college coding club, organising workshops and technical sessions.</div>
+          </div>
+
+          <div style="background:var(--bg3);border:1px solid var(--border);padding:18px 24px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;">AIML Co-Lead — Microsoft Learn Student Ambassadors</div>
+            <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:4px;">MLSAC, AISSMS · 2021 – 2023</div>
+            <div style="font-size:12px;color:var(--muted2);">Co-led the AI/ML chapter under Microsoft's student ambassador programme for two years.</div>
+          </div>
+
+          <div style="background:var(--bg3);border:1px solid var(--border);padding:18px 24px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Technical Secretary & Technical Representative</div>
+            <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:4px;">Computer Engineering Students' Association · 2021 – 2023</div>
+            <div style="font-size:12px;color:var(--muted2);">Served as Technical Representative (2021–22) then Technical Secretary (2022–23), coordinating departmental tech events.</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-label reveal" data-num="08">// contact.init</div>
+    <h2 class="contact-big reveal">Let's<br>Work <span>Together.</span></h2>
+    <p class="contact-sub reveal">I'm actively looking for internship and full-time opportunities in software engineering, ML, or QA automation. My inbox is open — let's talk.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:onasveebanarse@gmail.com" class="contact-link">✉ Email</a>
+      <a href="https://linkedin.com/in/obanarse-ob22" target="_blank" class="contact-link">LinkedIn</a>
+      <a href="https://github.com/ORION-22" target="_blank" class="contact-link">GitHub</a>
+      <a href="tel:+14132758451" class="contact-link">+1 413-275-8451</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">© 2025 — Onasvee Banarse · Built with HTML/CSS/JS</div>
+    <div class="footer-right">Hosted on <span>GitHub Pages</span></div>
+  </footer>
+
+  <button class="go-top" id="goTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <div class="pdf-modal-overlay" id="pdfModal">
+    <div class="pdf-modal">
+      <div class="pdf-modal-header">
+        <div class="pdf-modal-title">
+          <span id="modalJournal">// journal</span>
+          <span id="modalTitle">Paper Title</span>
+        </div>
+        <div class="pdf-modal-actions">
+          <a id="modalOpenLink" href="#" target="_blank" class="pdf-action-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open in Tab
+          </a>
+          <button class="pdf-close-btn" onclick="closePDF()">✕</button>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        <div class="pdf-loading" id="pdfLoading">
+          <div class="pdf-loading-bar"></div>
+          loading via google docs viewer...
+        </div>
+        <div class="pdf-fallback" id="pdfFallback">
+          <div class="pdf-fallback-icon">📄</div>
+          <div class="pdf-fallback-msg" id="fallbackMsg">
+            <span>// viewer unavailable</span>
+            Google Docs viewer couldn't load this PDF. Click below to open it directly.
+          </div>
+          <a id="fallbackLink" href="#" target="_blank" class="pdf-fallback-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open Paper
+          </a>
+        </div>
+        <iframe id="pdfFrame" src=""></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
