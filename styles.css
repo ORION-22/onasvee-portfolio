@@ -340,7 +340,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   position: fixed;
   inset: 0;
   z-index: 9998;
-  background: #0a0a0a;
+  background: var(--bg); /* Changed from #0a0a0a */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -389,7 +389,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   left: 0;
   right: 0;
   height: 3px;
-  background: #161625;
+  background: var(--border); /* Changed from #161625 */
   border-radius: 50px;
   overflow: hidden;
 }
@@ -534,7 +534,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 .percent-text {
   font-family: 'JetBrains Mono', monospace;
-  color: #fff;
+  color: var(--text); /* Changed from #fff */
   font-size: 12px;
   font-weight: 600;
   opacity: 0.4;
@@ -549,7 +549,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   bottom: -50px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #fff;
+  color: var(--text); /* Changed from #fff */
   opacity: 0;
   letter-spacing: 1px;
   cursor: pointer;

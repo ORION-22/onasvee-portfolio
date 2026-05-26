@@ -27,17 +27,53 @@ window.addEventListener('scroll', () => {
 });
 
 function applyPalette(p, theme) {
-  const isDark = (theme || html.getAttribute('data-theme')) === 'dark';
-  html.style.setProperty('--accent',  isDark ? p.dark  : p.light);
-  html.style.setProperty('--accent2', isDark ? p.dark2 : p.light2);
-  document.getElementById('colorDot').style.background = isDark ? p.dark : p.light;
-  document.getElementById('colorName').textContent = p.name;
-}
+      const isDark = (theme || html.getAttribute('data-theme')) === 'dark';
+      
+      // Figure out exactly which colors are currently active
+      const activeAccent = isDark ? p.dark : p.light;
+      const activeBg = isDark ? '#161616' : '#e5e5e3'; // Matches your --bg3 variable
+
+      html.style.setProperty('--accent',  activeAccent);
+      html.style.setProperty('--accent2', isDark ? p.dark2 : p.light2);
+      document.getElementById('colorDot').style.background = activeAccent;
+      document.getElementById('colorName').textContent = p.name;
+
+      // ==========================================
+      // DYNAMIC FAVICON GENERATOR
+      // ==========================================
+      const cvs = document.createElement('canvas');
+      cvs.width = 64; cvs.height = 64;
+      const ctx = cvs.getContext('2d');
+      
+      // 1. Draw a smooth background box matching the current theme's card color
+      ctx.fillStyle = activeBg;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(0, 0, 64, 64, 14); else ctx.fillRect(0, 0, 64, 64);
+      ctx.fill();
+      
+      // 2. Draw the "OB" text in the exact active accent color
+      ctx.fillStyle = activeAccent;
+      ctx.font = 'bold 30px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('OB', 32, 34);
+      
+      // 3. Push it live to the browser tab
+      let link = document.querySelector("link[rel~='icon']");
+      if (!link) { 
+        link = document.createElement('link'); 
+        link.rel = 'icon'; 
+        document.head.appendChild(link); 
+      }
+      link.href = cvs.toDataURL('image/png');
+    }
 
 const initIdx = +(html.dataset.palette || 0);
 applyPalette(palettes[initIdx]);
 
-const savedTheme = localStorage.getItem('theme') || 'dark';
+// Check local storage first. If empty, check the OS/Browser system preference.
+const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+const savedTheme = localStorage.getItem('theme') || (systemPrefersDark ? 'dark' : 'light');
 html.setAttribute('data-theme', savedTheme);
 applyPalette(palettes[initIdx], savedTheme);
 
