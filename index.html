@@ -4,25 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Onasvee Banarse — MS CS @ UMass Amherst</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
 
   <script>
     // Runs before paint — no flash
     (function(){
       const palettes = [
-        { name:'ferrari',       dark:'#FF2D55', dark2:'#FF6B35', light:'#CC0023', light2:'#A00018' },
-        { name:'mclaren',       dark:'#FF8000', dark2:'#FFD60A', light:'#C45E00', light2:'#8A4200' },
-        { name:'red bull',      dark:'#6AA8FF', dark2:'#FFD700', light:'#1B39A0', light2:'#0D2070' },
-        { name:'mercedes',      dark:'#00D2BE', dark2:'#C0D0CC', light:'#007A6E', light2:'#005048' },
-        { name:'alpine',        dark:'#FF87BC', dark2:'#0093CC', light:'#BE185D', light2:'#0369A1' },
-        { name:'aston martin',  dark:'#00FF87', dark2:'#00E8A0', light:'#006340', light2:'#004A2F' },
-        { name:'williams',      dark:'#37BEDD', dark2:'#7DD3FC', light:'#0047AB', light2:'#003380' },
-        { name:'haas',          dark:'#FF4444', dark2:'#CCCCCC', light:'#CC0000', light2:'#888888' },
-        { name:'kick sauber',   dark:'#39FF14', dark2:'#00C4B4', light:'#166534', light2:'#0D4A2A' },
-        { name:'racing bulls',  dark:'#7B9FFF', dark2:'#B3C6FF', light:'#2B3FAA', light2:'#1A2880' },
-      ];
+  { name: 'ferrari',      dark: '#EF1A2D', dark2: '#FF4A5A', light: '#A6051A', light2: '#73000E' },
+  { name: 'mclaren',      dark: '#FF8700', dark2: '#FFA842', light: '#C26600', light2: '#8F4B00' },
+  { name: 'red bull',     dark: '#3330FF', dark2: '#FFEA33', light: '#0600EF', light2: '#030078' },
+  { name: 'mercedes',     dark: '#00D2BE', dark2: '#E0E6ED', light: '#007A6E', light2: '#004F47' },
+  { name: 'alpine',       dark: '#FF66D6', dark2: '#3385FF', light: '#FD4BC7', light2: '#0058BB' },
+  { name: 'aston martin', dark: '#00A699', dark2: '#E4F533', light: '#00665E', light2: '#00423D' },
+  { name: 'williams',     dark: '#33C5FF', dark2: '#335CFF', light: '#00A3E0', light2: '#041E42' },
+  { name: 'haas',         dark: '#FF3352', dark2: '#E0E0E0', light: '#E6002B', light2: '#202020' },
+  { name: 'audi',         dark: '#FF244D', dark2: '#CCCCCC', light: '#D40026', light2: '#1A1A1A' },
+  { name: 'racing bulls', dark: '#3B5CFF', dark2: '#FF3333', light: '#1534CC', light2: '#B30000' },
+  { name: 'cadillac',     dark: '#FFCE33', dark2: '#FF4752', light: '#C99B00', light2: '#8F141B' }
+];
       // Pick random palette each session
       let idx = sessionStorage.getItem('paletteIdx');
       if(idx === null){
@@ -43,317 +47,197 @@
       r.dataset.paletteName = p.name;
     })();
   </script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root, [data-theme="dark"] {
-      --bg: #080808; --bg2: #0f0f0f; --bg3: #161616;
-      --border: #1f1f1f; --accent: #a8ff78; --accent2: #78ffd6;
-      --accent-dark: #080808; --text: #e8e8e8;
-      --muted: #555; --muted2: #888;
-      --nav-bg: rgba(8,8,8,0.92); --photo-bg: #111;
-      --mono: 'JetBrains Mono', monospace; --sans: 'Cabinet Grotesk', sans-serif;
-    }
-    [data-theme="light"] {
-      --bg: #f7f7f5; --bg2: #eeeeed; --bg3: #e5e5e3;
-      --border: #d0d0cc; --accent: #2a7d00; --accent2: #007a5e;
-      --accent-dark: #ffffff; --text: #111111;
-      --muted: #aaaaaa; --muted2: #666666;
-      --nav-bg: rgba(247,247,245,0.92); --photo-bg: #e0e0de;
-    }
-
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; cursor: none; transition: background 0.4s, color 0.4s; }
-
-    .cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10002; }
-    .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--accent); opacity: 0.4; border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10001; }
-    /* Restore system cursor inside iframe (custom cursor can't track inside iframes) */
-    .pdf-modal-body iframe { cursor: default; }
-
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s; }
-    nav.scrolled { background: var(--nav-bg); backdrop-filter: blur(14px); border-color: var(--border); }
-    .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.05em; }
-    .nav-right { display: flex; align-items: center; gap: 28px; }
-    .nav-links { display: flex; gap: 24px; list-style: none; }
-    .nav-links a { font-family: var(--mono); font-size: 11px; color: var(--muted2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent); }
-
-    .theme-toggle { width: 48px; height: 26px; background: var(--bg3); border: 1px solid var(--border); border-radius: 13px; cursor: none; position: relative; transition: background 0.3s, border-color 0.3s; flex-shrink: 0; }
-    .theme-toggle:hover { border-color: var(--accent); }
-    .toggle-knob { width: 18px; height: 18px; background: var(--accent); border-radius: 50%; position: absolute; top: 3px; left: 4px; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-    [data-theme="light"] .toggle-knob { transform: translateX(22px); }
-    .toggle-icon-dark, .toggle-icon-light { position: absolute; font-size: 9px; top: 50%; }
-    .toggle-icon-dark { left: 6px; transform: translateY(-50%); }
-    .toggle-icon-light { right: 6px; transform: translateY(-50%); }
-
-    /* HERO */
-    #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 60px; padding: 120px 48px 80px; position: relative; overflow: hidden; }
-    .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.5; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%); }
-    .hero-content { position: relative; }
-    .hero-tag { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.6s ease 0.2s forwards; }
-    .hero-name { font-size: clamp(44px, 6.5vw, 84px); font-weight: 800; line-height: 1; letter-spacing: -0.03em; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease 0.4s forwards; }
-    .hero-name span { color: var(--accent); }
-    .hero-title { font-family: var(--mono); font-size: clamp(12px, 1.5vw, 16px); color: var(--muted2); margin-bottom: 36px; opacity: 0; animation: fadeUp 0.6s ease 0.6s forwards; }
-    .typed-cursor { color: var(--accent); animation: blink 1s infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .hero-desc { max-width: 500px; font-size: 15px; color: var(--muted2); line-height: 1.8; margin-bottom: 44px; opacity: 0; animation: fadeUp 0.6s ease 0.8s forwards; }
-    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease 1s forwards; }
-    .btn-primary { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 26px; background: var(--accent); color: var(--accent-dark); border: none; text-decoration: none; font-weight: 700; transition: transform 0.2s, box-shadow 0.2s; cursor: none; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 30%, transparent); }
-    .btn-outline { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 26px; background: transparent; color: var(--text); border: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s, color 0.2s; cursor: none; }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* PHOTO */
-    .hero-photo-wrap { position: relative; flex-shrink: 0; opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards; }
-    .hero-photo-frame { width: 270px; height: 330px; position: relative; }
-    .hero-photo-frame::before { content: ''; position: absolute; inset: -2px; background: linear-gradient(135deg, var(--accent), transparent 60%, var(--accent2)); z-index: 0; border-radius: 2px; }
-    .hero-photo-inner { position: absolute; inset: 2px; background: var(--photo-bg); overflow: hidden; z-index: 1; border-radius: 1px; }
-    .hero-photo-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: grayscale(15%); transition: filter 0.3s; }
-    .hero-photo-frame:hover img { filter: grayscale(0%); }
-    .photo-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: var(--bg3); }
-    .photo-placeholder svg { width: 80px; height: 80px; opacity: 0.3; }
-    .photo-placeholder span { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-align: center; padding: 0 16px; }
-    .photo-badge { position: absolute; bottom: -14px; right: -14px; background: var(--accent); color: var(--accent-dark); font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; padding: 8px 14px; font-weight: 700; z-index: 2; }
-
-    .hero-scroll-hint { position: absolute; bottom: 40px; left: 48px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; display: flex; align-items: center; gap: 12px; opacity: 0; animation: fadeUp 0.6s ease 1.4s forwards; }
-    .scroll-line { width: 40px; height: 1px; background: var(--muted); position: relative; overflow: hidden; }
-    .scroll-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--accent); animation: scanline 2s ease 1.6s infinite; }
-    @keyframes scanline { to { left: 100%; } }
-
-    /* SECTIONS */
-    section { padding: 110px 48px; position: relative; }
-    .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-    .section-label::before { content: attr(data-num); color: var(--muted); }
-    .section-title { font-size: clamp(30px, 4.5vw, 50px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 60px; }
-    .section-title span { color: var(--accent); }
-
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    /* ABOUT */
-    #about { background: var(--bg); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-    .about-text p { font-size: 16px; color: var(--muted2); line-height: 1.85; margin-bottom: 18px; }
-    .about-text p strong { color: var(--text); font-weight: 600; }
-    .about-text .highlight { color: var(--accent); font-family: var(--mono); font-size: 14px; }
-    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-    .stat-box { background: var(--bg3); border: 1px solid var(--border); padding: 26px 22px; transition: border-color 0.2s; }
-    .stat-box:hover { border-color: var(--accent); }
-    .stat-num { font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
-    .stat-label { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.1em; text-transform: uppercase; }
-
-    /* EDUCATION */
-    #education { background: var(--bg2); }
-    .edu-grid { display: flex; flex-direction: column; gap: 2px; }
-    .edu-card { background: var(--bg3); border: 1px solid var(--border); padding: 32px 36px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; transition: border-color 0.2s; }
-    .edu-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
-    .edu-degree { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
-    .edu-school { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 14px; letter-spacing: 0.05em; }
-    .edu-courses { font-size: 14px; color: var(--muted2); line-height: 1.7; }
-    .edu-courses strong { color: var(--muted2); font-weight: 500; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 6px; }
-    .edu-meta { text-align: right; }
-    .edu-year { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; white-space: nowrap; }
-    .edu-badge { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: 10px; padding: 5px 10px; background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); letter-spacing: 0.08em; }
-
-    /* SKILLS */
-    #skills { background: var(--bg); }
-    .skills-outer { display: flex; flex-direction: column; gap: 40px; }
-    .skill-group-title { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-tag { font-family: var(--mono); font-size: 12px; padding: 7px 15px; border: 1px solid var(--border); color: var(--muted2); letter-spacing: 0.05em; transition: all 0.2s; cursor: default; }
-    .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, transparent); }
-    .skill-tag.accent { border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: var(--accent); }
-
-    /* EXPERIENCE */
-    #experience { background: var(--bg2); }
-    .timeline { display: flex; flex-direction: column; }
-    .timeline-item { display: grid; grid-template-columns: 200px 1fr; gap: 40px; padding: 32px 0; border-bottom: 1px solid var(--border); transition: border-color 0.2s; }
-    .timeline-item:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
-    .timeline-left { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; padding-top: 4px; }
-    .timeline-left .tl-year { color: var(--accent); font-size: 12px; margin-bottom: 4px; }
-    .timeline-right h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.01em; }
-    .timeline-right .company { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 16px; letter-spacing: 0.05em; }
-    .timeline-right ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-    .timeline-right ul li { font-size: 15px; color: var(--muted2); line-height: 1.7; padding-left: 18px; position: relative; }
-    .timeline-right ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); }
-    .tl-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tl-tag { font-family: var(--mono); font-size: 10px; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted2); letter-spacing: 0.05em; }
-
-    /* PROJECTS */
-    #projects { background: var(--bg); }
-    .projects-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2px; }
-    .project-card { background: var(--bg3); border: 1px solid var(--border); padding: 32px; transition: border-color 0.25s, transform 0.25s; position: relative; overflow: hidden; }
-    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
-    .project-card:hover { border-color: color-mix(in srgb, var(--accent) 25%, transparent); transform: translateY(-4px); }
-    .project-card:hover::before { transform: scaleX(1); }
-    .project-num { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 20px; }
-    .project-title { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
-    .project-desc { font-size: 15px; color: var(--muted2); line-height: 1.75; margin-bottom: 20px; }
-    .project-highlight { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-bottom: 16px; letter-spacing: 0.04em; }
-    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
-    .proj-tag { font-family: var(--mono); font-size: 10px; padding: 4px 10px; background: color-mix(in srgb, var(--accent) 8%, transparent); color: var(--accent); letter-spacing: 0.05em; }
-    .project-links { display: flex; gap: 16px; }
-    .proj-link { font-family: var(--mono); font-size: 11px; color: var(--muted2); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
-    .proj-link:hover { color: var(--accent); }
-    .proj-link svg { width: 12px; height: 12px; }
-
-    /* PUBLICATIONS */
-    #publications { background: var(--bg2); }
-    .pub-list { display: flex; flex-direction: column; gap: 2px; }
-    .pub-card { background: var(--bg3); border: 1px solid var(--border); padding: 28px 32px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; transition: border-color 0.2s, transform 0.2s; }
-    .pub-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); transform: translateX(6px); }
-    .pub-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; line-height: 1.4; }
-    .pub-venue { font-family: var(--mono); font-size: 12px; color: var(--muted2); letter-spacing: 0.06em; }
-    .pub-venue span { color: var(--accent); }
-    .pub-year { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 700; white-space: nowrap; }
-    .pub-num { font-family: var(--mono); font-size: 28px; font-weight: 800; color: var(--border); line-height: 1; }
-
-    /* CONTACT */
-    #contact { background: var(--bg); border-top: 1px solid var(--border); }
-    .contact-big { font-size: clamp(36px, 6vw, 80px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 28px; }
-    .contact-big span { color: var(--accent); }
-    .contact-sub { font-size: 15px; color: var(--muted2); line-height: 1.75; max-width: 460px; margin-bottom: 44px; }
-    .contact-links { display: flex; gap: 22px; flex-wrap: wrap; }
-    .contact-link { font-family: var(--mono); font-size: 12px; color: var(--text); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; padding-bottom: 4px; border-bottom: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
-    .contact-link:hover { color: var(--accent); border-color: var(--accent); }
-
-    footer { padding: 22px 48px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .footer-left, .footer-right { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
-    .footer-right span { color: var(--accent); }
-
-    /* GO TO TOP */
-    .go-top {
-      position: fixed; bottom: 32px; right: 32px; z-index: 500;
-      width: 44px; height: 44px;
-      background: var(--bg3); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      cursor: none; opacity: 0; pointer-events: none;
-      transform: translateY(12px);
-      transition: opacity 0.3s, transform 0.3s, border-color 0.2s, background 0.2s;
-    }
-    .go-top.visible { opacity: 1; pointer-events: all; transform: none; }
-    .go-top:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--bg3)); }
-    .go-top svg { width: 16px; height: 16px; stroke: var(--accent); transition: stroke 0.2s; }
-
-    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 180px; }
-
-    /* PUBLICATIONS — updated cards */
-    .pub-authors { font-size: 12px; color: var(--muted2); margin-bottom: 10px; line-height: 1.5; }
-    .pub-authors strong { color: var(--accent); font-style: normal; }
-    .pub-view-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 14px; font-family: var(--mono); font-size: 11px;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-      padding: 7px 14px; background: transparent;
-      cursor: none; transition: background 0.2s, color 0.2s;
-    }
-    .pub-view-btn:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
-    .pub-view-btn svg { width: 12px; height: 12px; }
-
-    /* PDF MODAL */
-    .pdf-modal-overlay {
-      position: fixed; inset: 0; z-index: 10000;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .pdf-modal-overlay.open { opacity: 1; pointer-events: all; }
-    .pdf-modal {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      width: min(860px, 94vw);
-      height: min(88vh, 700px);
-      display: flex; flex-direction: column;
-      transform: translateY(20px) scale(0.97);
-      transition: transform 0.3s ease;
-    }
-    .pdf-modal-overlay.open .pdf-modal { transform: none; }
-    .pdf-modal-header {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
-    }
-    .pdf-modal-title { font-family: var(--mono); font-size: 11px; color: var(--muted2); letter-spacing: 0.06em; line-height: 1.5; }
-    .pdf-modal-title span { color: var(--accent); display: block; margin-bottom: 2px; font-size: 10px; }
-    .pdf-modal-actions { display: flex; gap: 8px; flex-shrink: 0; }
-    .pdf-action-btn {
-      font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
-      text-transform: uppercase; padding: 6px 12px;
-      border: 1px solid var(--border); background: transparent;
-      color: var(--muted2); text-decoration: none;
-      cursor: none; transition: border-color 0.2s, color 0.2s;
-      display: inline-flex; align-items: center; gap: 5px;
-    }
-    .pdf-action-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .pdf-close-btn {
-      font-family: var(--mono); font-size: 18px; line-height: 1;
-      background: none; border: none; color: var(--muted2);
-      cursor: none; padding: 2px 6px; transition: color 0.2s;
-    }
-    .pdf-close-btn:hover { color: var(--accent); }
-    .pdf-modal-body { flex: 1; position: relative; background: #1a1a1a; }
-    .pdf-modal-body iframe { width: 100%; height: 100%; border: none; display: block; }
-    .pdf-loading {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 12px;
-      font-family: var(--mono); font-size: 12px; color: var(--muted);
-      letter-spacing: 0.1em;
-    }
-    .pdf-loading-bar {
-      width: 120px; height: 2px; background: var(--border); overflow: hidden;
-    }
-    .pdf-loading-bar::after {
-      content: ''; display: block; height: 100%;
-      background: var(--accent); width: 40%;
-      animation: loading-slide 1.2s ease infinite;
-    }
-    @keyframes loading-slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(350%)} }
-    .pdf-fallback {
-      display: none; position: absolute; inset: 0;
-      flex-direction: column; align-items: center; justify-content: center;
-      gap: 20px; padding: 32px; text-align: center;
-      background: var(--bg2);
-    }
-    .pdf-fallback.show { display: flex; }
-    .pdf-fallback-icon { font-size: 40px; opacity: 0.5; }
-    .pdf-fallback-msg { font-family: var(--mono); font-size: 12px; color: var(--muted2); line-height: 1.8; letter-spacing: 0.04em; max-width: 340px; }
-    .pdf-fallback-msg span { color: var(--accent); display: block; margin-bottom: 4px; }
-    .pdf-fallback-btn {
-      font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 12px 24px;
-      background: var(--accent); color: var(--accent-dark);
-      text-decoration: none; font-weight: 700;
-      transition: opacity 0.2s; cursor: none; display: inline-flex; align-items: center; gap: 8px;
-    }
-    .pdf-fallback-btn:hover { opacity: 0.85; }
-
-    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
-
-    @media (max-width: 960px) {
-      #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 40px; }
-      .hero-photo-wrap { display: flex; justify-content: center; order: -1; }
-      .hero-photo-frame { width: 200px; height: 240px; }
-      nav { padding: 18px 24px; }
-      .nav-links { display: none; }
-      section { padding: 80px 24px; }
-      .about-grid, .edu-card, .pub-card { grid-template-columns: 1fr; }
-      .edu-meta { text-align: left; }
-      .timeline-item { grid-template-columns: 1fr; gap: 6px; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .hero-scroll-hint { left: 24px; }
-      footer { flex-direction: column; gap: 8px; text-align: center; }
-    }
-  </style>
 </head>
 <body>
+
+  <div class="loader-screen" id="loaderScreen">
+    <div class="loader-container">
+      <div class="track-area" id="trackArea">
+        <div class="track-surface">
+          <div class="track-progress" id="trackProgress"></div>
+        </div>
+        <div class="finish-marker"></div>
+
+        <div class="race-group" id="raceGroup">
+          <img class="driver" id="driver" src="driver.png" alt="" draggable="false"/>
+          <img class="f1-car" id="f1Car" src="f1-car.png" alt="" draggable="false"/>
+        </div>
+
+        <div class="particle" id="p1"></div>
+        <div class="particle" id="p2"></div>
+        <div class="particle" id="p3"></div>
+        <div class="particle" id="p4"></div>
+        <div class="particle" id="p5"></div>
+      </div>
+
+      <div class="status-bar">
+        <span class="status-text" id="statusText"></span>
+        <span class="percent-text" id="percentText">0%</span>
+      </div>
+
+      <span class="skip-hint" id="skipHint" onclick="skipLoader()">click to skip</span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Lock scroll while loader is active
+      document.body.style.overflow = 'hidden';
+
+      const trackProgress = document.getElementById('trackProgress');
+      const percentText = document.getElementById('percentText');
+      const f1Car = document.getElementById('f1Car');
+      const driver = document.getElementById('driver');
+      const raceGroup = document.getElementById('raceGroup');
+      const loaderScreen = document.getElementById('loaderScreen');
+      const statusText = document.getElementById('statusText');
+      const trackArea = document.getElementById('trackArea');
+      const skipHint = document.getElementById('skipHint');
+      const particles = [
+        document.getElementById('p1'), document.getElementById('p2'),
+        document.getElementById('p3'), document.getElementById('p4'),
+        document.getElementById('p5')
+      ];
+
+// === CONFIG ===
+      const STUCK_AT = 62;
+      const PHASE1_DURATION = 1400; // Increased from 850ms for a longer, smoother travel path
+      const STUCK_DURATION = 750;
+      const ENTRY_DELAY = 300;
+      const PUSH_DURATION = 850;
+      const EXIT_DELAY = 400;
+
+      // Safe local storage check
+      try {
+        if (localStorage.getItem('portfolio_visited')) {
+          // Uncomment to skip loader for returning visitors:
+          // loaderScreen.classList.add('done');
+          // document.body.style.overflow = '';
+          // return; 
+        }
+        localStorage.setItem('portfolio_visited', 'true');
+      } catch (e) { console.warn("Local storage blocked, ignoring."); }
+
+      let currentProgress = 0;
+      function setProgress(val) {
+        currentProgress = val;
+        trackProgress.style.width = val + '%';
+        percentText.textContent = Math.round(val) + '%';
+        raceGroup.style.left = val + '%';
+      }
+
+      function showStatus(text) {
+        statusText.textContent = text;
+        statusText.classList.add('visible');
+      }
+      function hideStatus() { statusText.classList.remove('visible'); }
+
+// Add a variable at the top of your script block to track the active timer
+      let activeTypeInterval = null;
+
+      function typeStatus(text, speed = 40) {
+        // CRITICAL: Clear any running typewriter interval from a previous phase
+        if (activeTypeInterval !== null) {
+          clearInterval(activeTypeInterval);
+        }
+
+        statusText.innerHTML = ''; 
+        statusText.classList.add('visible');
+        let i = 0;
+        
+        // Save the new interval to our tracking variable
+        activeTypeInterval = setInterval(() => {
+          if (i < text.length) { 
+            statusText.innerHTML += text[i]; 
+            i++; 
+          } 
+          else { 
+            clearInterval(activeTypeInterval); 
+            activeTypeInterval = null; // Reset when typing finishes
+          }
+        }, speed);
+      }
+
+      function spawnSmoke() {
+        const groupRect = raceGroup.getBoundingClientRect();
+        const trackRect = trackArea.getBoundingClientRect();
+        const smokeX = groupRect.left - trackRect.left;
+
+        particles.forEach((p, i) => {
+          p.style.left = (smokeX + Math.random() * 20) + 'px';
+          p.style.bottom = (8 + Math.random() * 12) + 'px';
+          p.style.width = (6 + Math.random() * 6) + 'px';
+          p.style.height = p.style.width;
+          p.classList.remove('active');
+          void p.offsetWidth;
+          setTimeout(() => p.classList.add('active'), i * 120);
+        });
+      }
+
+      // Attach to window so HTML onclick works
+      window.skipLoader = function() {
+        loaderScreen.classList.add('done');
+        document.body.style.overflow = '';
+      };
+
+function phase1() {
+        driver.style.display = 'none';
+        typeStatus('// lights out and away we go.', 30); 
+
+        const start = performance.now();
+        function animate(now) {
+          const t = Math.min((now - start) / PHASE1_DURATION, 1);
+          
+          // Smoother kinematic curve: standard quintic ease-out profile
+          // This gives the car a high initial speed but decelerates beautifully into the stop
+          const eased = 1 - Math.pow(1 - t, 5); 
+          
+          setProgress(eased * STUCK_AT);
+          if (t < 1) requestAnimationFrame(animate); else phase2();
+        }
+        requestAnimationFrame(animate);
+      }
+
+      function phase2() {
+        raceGroup.classList.add('stuck');
+        spawnSmoke();
+        typeStatus('// DNF?', 35);
+        setTimeout(() => skipHint.classList.add('visible'), 200);
+        setTimeout(() => { raceGroup.classList.remove('stuck'); phase3(); }, STUCK_DURATION);
+      }
+
+      function phase3() {
+        hideStatus();
+        skipHint.classList.remove('visible');
+        driver.style.display = 'block';
+        driver.classList.add('visible');
+        setTimeout(() => {
+          driver.classList.add('pushing');
+          typeStatus('// not like this. not today.', 30);
+          const start = performance.now();
+          function animatePush(now) {
+            const t = Math.min((now - start) / PUSH_DURATION, 1);
+            let eased;
+            if (t < 0.2) eased = 2.5 * t * t;
+            else if (t < 0.8) eased = 0.1 + (t - 0.2) * 1.25;
+            else { const r = (t - 0.8) / 0.2; eased = 0.85 + 0.15 * (1 - Math.pow(1 - r, 2)); }
+            setProgress(STUCK_AT + (100 - STUCK_AT) * eased);
+            if (t < 1) requestAnimationFrame(animatePush); else finish();
+          }
+          requestAnimationFrame(animatePush);
+        }, ENTRY_DELAY);
+      }
+
+      function finish() {
+        driver.classList.remove('pushing');
+        hideStatus();
+        setTimeout(() => typeStatus('// welcome to my world.', 25), 100);
+        setTimeout(() => window.skipLoader(), EXIT_DELAY + 300);
+      }
+
+      phase1();
+    })();
+  </script>
 
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
@@ -371,7 +255,6 @@
         <li><a href="#certifications">Certifications</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <!-- Colour reroll button -->
       <button id="colorBtn" title="Randomise accent colour" style="background:none;border:1px solid var(--border);border-radius:999px;padding:5px 10px;cursor:none;display:flex;align-items:center;gap:7px;transition:border-color 0.2s,padding 0.2s;" onmouseenter="this.style.borderColor='var(--accent)';document.getElementById('colorName').style.maxWidth='80px';document.getElementById('colorName').style.opacity='1'" onmouseleave="this.style.borderColor='var(--border)';document.getElementById('colorName').style.maxWidth='0';document.getElementById('colorName').style.opacity='0'">
         <span id="colorDot" style="width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block;flex-shrink:0;transition:background 0.3s;"></span>
         <span style="font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:0.1em;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;transition:max-width 0.3s ease,opacity 0.3s ease;" id="colorName">ferrari</span>
@@ -384,7 +267,6 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-grid-bg"></div>
     <div class="hero-content">
@@ -392,29 +274,21 @@
       <h1 class="hero-name">Onasvee<br>Banarse<span>.</span></h1>
       <p class="hero-title" id="typed-text">MS CS @ UMass Amherst · <span class="typed-cursor">|</span></p>
       <p class="hero-desc">
-        Engineer who spent years breaking systems at Reliance Jio so engineers could ship better ones. Now pursuing my Master's in CS — combining QA depth, ML research, and software engineering to build things that are fast, reliable, and production-ready.
-      </p>
+Engineer who has spent several years breaking systems in order to design and deliver new systems through Reliance Jio. Presently working towards a Master's degree in Computer Science, focusing on Quality Assurance, Machine Learning, and Software Engineering, to create fast, reliable systems.      </p>
       <div class="hero-ctas">
         <a href="#projects" class="btn-primary">View My Work</a>
-        <a href="mailto:onasveebanarse@gmail.com" class="btn-outline">Get in Touch</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+<a href="javascript:void(0)" onclick="openPDF('resume.pdf', 'Onasvee Banarse', 'Resume')" class="btn-outline" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          View Resume
+        </a>
       </div>
     </div>
 
     <div class="hero-photo-wrap">
       <div class="hero-photo-frame">
         <div class="hero-photo-inner">
-          <!--
-            ADD YOUR PHOTO:
-            Replace this div with: <img src="your-photo.jpg" alt="Onasvee Banarse" />
-            Place your photo file in the same folder as index.html
-          -->
-          <div class="photo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="38" r="22" stroke="currentColor" stroke-width="3"/>
-              <path d="M10 85c0-22.1 17.9-40 40-40s40 17.9 40 40" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <span>// add your-photo.jpg<br>to this folder</span>
-          </div>
+            <img src="OnasveeBanarse.PNG" alt="Onasvee Banarse" />
         </div>
         <div class="photo-badge">UMass · MS CS</div>
       </div>
@@ -423,27 +297,25 @@
     <div class="hero-scroll-hint"><div class="scroll-line"></div>scroll to explore</div>
   </section>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="section-label reveal" data-num="01">// about.me</div>
     <h2 class="section-title reveal">The Story<br>So <span>Far.</span></h2>
     <div class="about-grid">
       <div class="about-text reveal">
         <p>I'm <strong>Onasvee Banarse</strong>, a graduate CS student at <span class="highlight">UMass Amherst</span>, and a published researcher with a background in QA automation and cybersecurity.</p>
-        <p>Before grad school, I was an <strong>Associate QA Engineer at Reliance Jio Platforms</strong> — one of India's largest tech companies — where I built Selenium frameworks, validated OAuth2/OIDC SSO flows, and cut regression effort by 10+ hours a week.</p>
+        <p>Before grad school, I was an <strong>Associate QA Engineer at Reliance Jio Platforms</strong> — one of India's largest tech companies where I built Selenium frameworks, validated OAuth2/OIDC SSO flows, and cut regression effort by 10+ hours a week.</p>
         <p>My research spans <strong>deep learning for image forensics</strong> and GANs, with three co-authored publications. I bring both engineering rigor and research curiosity to everything I build.</p>
-        <p>Based in <strong>Amherst, MA</strong> · Open to US internships & full-time roles · Available for remote.</p>
+        <p>Based in <strong>Amherst, MA</strong> · Open to US internships & full-time roles · Available for on-site and remote.</p>
       </div>
       <div class="about-stats reveal">
         <div class="stat-box"><div class="stat-num">2+</div><div class="stat-label">Years Industry QA Exp</div></div>
         <div class="stat-box"><div class="stat-num">9.38</div><div class="stat-label">B.Tech GPA / 10</div></div>
         <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Research Publications</div></div>
-        <div class="stat-box"><div class="stat-num">95%</div><div class="stat-label">Model Accuracy (CNN)</div></div>
+        <div class="stat-box"><div class="stat-num">3.433</div><div class="stat-label">Master's GPA / 4</div></div>
       </div>
     </div>
   </section>
 
-  <!-- EDUCATION -->
   <section id="education">
     <div class="section-label reveal" data-num="02">// education</div>
     <h2 class="section-title reveal">Where I've<br><span>Studied.</span></h2>
@@ -470,8 +342,7 @@
           <div class="edu-school">// Savitribai Phule Pune University, India</div>
           <div class="edu-courses">
             <strong>// relevant coursework</strong>
-            Data Structures & Algorithms · Distributed Systems · Object Oriented Programming
-          </div>
+Programming & Problem Solving · Object Oriented Programming(OOP) · Principles of Programming Languages · Object oriented Modeling & Design · High Performance Computing · Data Structures & Algorithms · Design & Analysis of Algorithms · Systems Programming & Operating System · Database Management Systems · Computer Networks & Security · Distributed Systems · Data Science & Big Data Analytics          </div>
         </div>
         <div class="edu-meta">
           <div class="edu-year">Aug 2019 — Mar 2023</div>
@@ -482,7 +353,6 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
   <section id="skills">
     <div class="section-label reveal" data-num="03">// skills.stack</div>
     <h2 class="section-title reveal">What I<br>Work <span>With.</span></h2>
@@ -529,12 +399,12 @@
         <div class="skills-grid">
           <span class="skill-tag accent">PostgreSQL</span>
           <span class="skill-tag accent">CassandraDB</span>
+          <span class="skill-tag">MongoDB</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
   <section id="experience">
     <div class="section-label reveal" data-num="04">// work.history</div>
     <h2 class="section-title reveal">Where I've<br>Been <span>Before.</span></h2>
@@ -609,7 +479,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="section-label reveal" data-num="05">// selected.work</div>
     <h2 class="section-title reveal">Things I've<br><span>Built.</span></h2>
@@ -630,7 +499,7 @@
           <span class="proj-tag">Streamlit</span><span class="proj-tag">ELA</span>
         </div>
         <div class="project-links">
-          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+          <a href="https://github.com/ORION-22/Image_Manipulation_Detection_Streamlit_SegematationModel" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
           <a href="#publications" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Published Paper</a>
         </div>
       </div>
@@ -693,7 +562,7 @@
           <span class="proj-tag">Machine Learning</span>
         </div>
         <div class="project-links">
-          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+          <a href="https://github.com/ORION-22/DRIVER_DROWSINESS_CNN_TNESORFLOW" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
         </div>
       </div>
 
@@ -710,15 +579,14 @@
           <span class="proj-tag">JavaScript</span><span class="proj-tag">Frontend</span>
         </div>
         <div class="project-links">
-          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+          <a href="https://github.com/ORION-22/Team_Pyrolysis" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- PUBLICATIONS -->
-  <section id="publications">
+<section id="publications">
     <div class="section-label reveal" data-num="06">// research.published</div>
     <h2 class="section-title reveal">Published<br><span>Research.</span></h2>
     <div class="pub-list">
@@ -728,6 +596,12 @@
           <div class="pub-title">Unmasking the Deception: An Image Manipulation Detection Using ResNet and UNet Architecture</div>
           <div class="pub-authors"><strong>Onasvee Banarse</strong>, Harsh Shah, Kaustubh Kabra, Akash Mete</div>
           <div class="pub-venue">International Research Journal of Engineering and Technology (IRJET) · Vol. 12, Issue 03 · <span>Mar 2025</span></div>
+          
+          <div style="font-family:var(--mono); font-size:11px; color:var(--muted2); margin:12px 0; padding:8px 12px; border-left:2px solid var(--accent); background:color-mix(in srgb,var(--accent) 4%,transparent); max-width:720px; line-height:1.6;">
+            <span style="color:var(--accent); display:block; margin-bottom:2px; letter-spacing:0.05em;">// tl;dr summary</span>
+            Developed a deep learning framework achieving 95.3% accuracy on CASIA datasets by pairing Error Level Analysis (ELA) with ResNet/UNet architectures to detect localized image splicing, copy-move, and retouching manipulation regions.
+          </div>
+
           <button class="pub-view-btn" onclick="openPDF('https://www.irjet.net/archives/V12/i3/IRJET-V12I391.pdf', 'Unmasking the Deception', 'IRJET · Vol. 12, Issue 03 · Mar 2025')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             View Paper
@@ -744,6 +618,12 @@
           <div class="pub-title">Exploring the Potential of Generative Adversarial Networks: A Comparative Study of GAN</div>
           <div class="pub-authors">Harsh Shah, Kaustubh Kabra, <strong>Onasvee Banarse</strong>, Akash Mete</div>
           <div class="pub-venue">International Research Journal of Engineering and Technology (IRJET) · Vol. 10, Issue 03 · <span>May 2023</span></div>
+          
+          <div style="font-family:var(--mono); font-size:11px; color:var(--muted2); margin:12px 0; padding:8px 12px; border-left:2px solid var(--accent); background:color-mix(in srgb,var(--accent) 4%,transparent); max-width:720px; line-height:1.6;">
+            <span style="color:var(--accent); display:block; margin-bottom:2px; letter-spacing:0.05em;">// tl;dr summary</span>
+            Conducted a technical comparative analysis of generative model architectures (Vanilla GANs, DCGANs, and CycleGANs), evaluating structural training stability, loss function convergence profiles, and image synthesis quality.
+          </div>
+
           <button class="pub-view-btn" onclick="openPDF('https://www.irjet.net/archives/V10/i5/IRJET-V10I5206.pdf', 'Exploring the Potential of GANs', 'IRJET · Vol. 10, Issue 03 · May 2023')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             View Paper
@@ -760,6 +640,12 @@
           <div class="pub-title">Autonomous UAV Swarms: Powering Up with AI</div>
           <div class="pub-authors"><strong>Onasvee Banarse</strong>, Harsh Shah, Kaustubh Kabra</div>
           <div class="pub-venue">International Journal for Research in Applied Science & Engineering Technology (IJRASET) · Vol. 11, Issue 06 · <span>Jun 2023</span></div>
+          
+          <div style="font-family:var(--mono); font-size:11px; color:var(--muted2); margin:12px 0; padding:8px 12px; border-left:2px solid var(--accent); background:color-mix(in srgb,var(--accent) 4%,transparent); max-width:720px; line-height:1.6;">
+            <span style="color:var(--accent); display:block; margin-bottom:2px; letter-spacing:0.05em;">// tl;dr summary</span>
+            Investigated decentralized multi-agent control systems for unmanned aerial vehicle (UAV) swarms, analyzing edge-computed path planning algorithms and collision-avoidance mechanisms for collaborative civilian monitoring operations.
+          </div>
+
           <button class="pub-view-btn" onclick="openPDF('https://doi.org/10.22214/ijraset.2023.54336', 'Autonomous UAV Swarms: Powering Up with AI', 'IJRASET · Vol. 11, Issue 06 · Jun 2023')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             View Paper
@@ -774,14 +660,12 @@
     </div>
   </section>
 
-  <!-- CERTIFICATIONS & LEADERSHIP -->
   <section id="certifications">
     <div class="section-label reveal" data-num="07">// certifications.leadership</div>
     <h2 class="section-title reveal">Awards, Certs<br>& <span>Leadership.</span></h2>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;" class="reveal">
 
-      <!-- AWARDS & CERTS -->
       <div>
         <div class="skill-group-title">// awards & certifications</div>
         <div style="display:flex;flex-direction:column;gap:2px;">
@@ -822,7 +706,6 @@
         </div>
       </div>
 
-      <!-- LEADERSHIP -->
       <div>
         <div class="skill-group-title">// leadership & activities</div>
         <div style="display:flex;flex-direction:column;gap:2px;">
@@ -851,16 +734,31 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="section-label reveal" data-num="08">// contact.init</div>
     <h2 class="contact-big reveal">Let's<br>Work <span>Together.</span></h2>
     <p class="contact-sub reveal">I'm actively looking for internship and full-time opportunities in software engineering, ML, or QA automation. My inbox is open — let's talk.</p>
-    <div class="contact-links reveal">
-      <a href="mailto:onasveebanarse@gmail.com" class="contact-link">✉ Email</a>
-      <a href="https://linkedin.com/in/obanarse-ob22" target="_blank" class="contact-link">LinkedIn</a>
-      <a href="https://github.com/ORION-22" target="_blank" class="contact-link">GitHub</a>
-      <a href="tel:+14132758451" class="contact-link">+1 413-275-8451</a>
+<div class="contact-links reveal">
+      <a href="mailto:onasveebanarse@gmail.com" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        Email
+      </a>
+      <a href="https://linkedin.com/in/obanarse-ob22" target="_blank" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/ORION-22" target="_blank" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        GitHub
+      </a>
+      <a href="javascript:void(0)" onclick="openPDF('resume.pdf', 'Onasvee Banarse', 'Resume')" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        View Resume
+      </a>
+      <a href="tel:+14132758451" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        +1 413-275-8451
+      </a>
     </div>
   </section>
 
@@ -869,14 +767,12 @@
     <div class="footer-right">Hosted on <span>GitHub Pages</span></div>
   </footer>
 
-  <!-- GO TO TOP -->
   <button class="go-top" id="goTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15"/>
     </svg>
   </button>
 
-  <!-- PDF MODAL -->
   <div class="pdf-modal-overlay" id="pdfModal">
     <div class="pdf-modal">
       <div class="pdf-modal-header">
@@ -913,132 +809,6 @@
     </div>
   </div>
 
-  <script>
-    const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-    (function ani(){cursor.style.transform=`translate(${mx-4}px,${my-4}px)`;rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.transform=`translate(${rx-16}px,${ry-16}px)`;requestAnimationFrame(ani);})();
-
-    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);});
-
-    const html=document.documentElement, btn=document.getElementById('themeToggle');
-
-    // Palette list (mirrors head script)
-    const palettes = [
-      { name:'ferrari',       dark:'#FF2D55', dark2:'#FF6B35', light:'#CC0023', light2:'#A00018' },
-      { name:'mclaren',       dark:'#FF8000', dark2:'#FFD60A', light:'#C45E00', light2:'#8A4200' },
-      { name:'red bull',      dark:'#6AA8FF', dark2:'#FFD700', light:'#1B39A0', light2:'#0D2070' },
-      { name:'mercedes',      dark:'#00D2BE', dark2:'#C0D0CC', light:'#007A6E', light2:'#005048' },
-      { name:'alpine',        dark:'#FF87BC', dark2:'#0093CC', light:'#BE185D', light2:'#0369A1' },
-      { name:'aston martin',  dark:'#00FF87', dark2:'#00E8A0', light:'#006340', light2:'#004A2F' },
-      { name:'williams',      dark:'#37BEDD', dark2:'#7DD3FC', light:'#0047AB', light2:'#003380' },
-      { name:'haas',          dark:'#FF4444', dark2:'#CCCCCC', light:'#CC0000', light2:'#888888' },
-      { name:'kick sauber',   dark:'#39FF14', dark2:'#00C4B4', light:'#166534', light2:'#0D4A2A' },
-      { name:'racing bulls',  dark:'#7B9FFF', dark2:'#B3C6FF', light:'#2B3FAA', light2:'#1A2880' },
-    ];
-
-    // Go to top button
-    const goTop = document.getElementById('goTop');
-    window.addEventListener('scroll', () => {
-      goTop.classList.toggle('visible', window.scrollY > 400);
-    });
-
-    function applyPalette(p, theme) {
-      const isDark = (theme || html.getAttribute('data-theme')) === 'dark';
-      html.style.setProperty('--accent',  isDark ? p.dark  : p.light);
-      html.style.setProperty('--accent2', isDark ? p.dark2 : p.light2);
-      document.getElementById('colorDot').style.background = isDark ? p.dark : p.light;
-      document.getElementById('colorName').textContent = p.name;
-    }
-
-    // Init colour dot from head-applied palette
-    const initIdx = +(html.dataset.palette || 0);
-    applyPalette(palettes[initIdx]);
-
-    // Theme toggle — reapply correct accent for new theme
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', savedTheme);
-    applyPalette(palettes[initIdx], savedTheme);
-
-    btn.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      applyPalette(palettes[+(html.dataset.palette||0)], next);
-    });
-
-    // Reroll button — pick a new random palette (different from current)
-    document.getElementById('colorBtn').addEventListener('click', () => {
-      let newIdx;
-      const cur = +(html.dataset.palette||0);
-      do { newIdx = Math.floor(Math.random() * palettes.length); } while(newIdx === cur);
-      html.dataset.palette = newIdx;
-      sessionStorage.setItem('paletteIdx', newIdx);
-      applyPalette(palettes[newIdx]);
-    });
-
-    const roles=['QA Automation Engineer','ML Researcher','Software Engineer','CS Graduate Student'];
-    let ri=0,ci=0,del=false;
-    const te=document.getElementById('typed-text');
-    function type(){const r=roles[ri];if(!del){ci++;te.innerHTML=`MS CS @ UMass Amherst · ${r.slice(0,ci)}<span class="typed-cursor">|</span>`;if(ci===r.length){del=true;setTimeout(type,2000);return;}}else{ci--;te.innerHTML=`MS CS @ UMass Amherst · ${r.slice(0,ci)}<span class="typed-cursor">|</span>`;if(ci===0){del=false;ri=(ri+1)%roles.length;}}setTimeout(type,del?40:80);}
-    setTimeout(type,1500);
-
-    const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80);});},{threshold:0.1});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-    // PDF MODAL — Google Docs Viewer for direct PDFs, auto-open for DOI links
-    let currentPdfUrl = '';
-    function openPDF(url, title, journal) {
-      currentPdfUrl = url;
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalJournal').textContent = '// ' + journal;
-      document.getElementById('modalOpenLink').href = url;
-      document.getElementById('fallbackLink').href = url;
-      document.getElementById('pdfLoading').style.display = 'flex';
-      document.getElementById('pdfFallback').classList.remove('show');
-      document.getElementById('pdfModal').classList.add('open');
-      document.body.style.overflow = 'hidden';
-
-      const frame = document.getElementById('pdfFrame');
-      frame.src = '';
-
-      const isDOI = url.includes('doi.org');
-
-      if (isDOI) {
-        // DOI links redirect and can't be proxied — open in new tab and show message
-        window.open(url, '_blank');
-        document.getElementById('pdfLoading').style.display = 'none';
-        document.getElementById('pdfFallback').classList.add('show');
-        document.getElementById('fallbackMsg').innerHTML =
-          '<span>// opened in new tab</span>This paper was opened in a new tab since the publisher does not support embedded viewing. If nothing opened, click the button below.';
-      } else {
-        // Use Google Docs Viewer as proxy for direct PDF links
-        frame.src = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
-        let timer = setTimeout(showFallback, 10000);
-        frame.onload = () => { clearTimeout(timer); document.getElementById('pdfLoading').style.display = 'none'; };
-        frame.onerror = () => { clearTimeout(timer); showFallback(); };
-      }
-    }
-    function showFallback() {
-      document.getElementById('pdfLoading').style.display = 'none';
-      document.getElementById('pdfFallback').classList.add('show');
-      document.getElementById('fallbackMsg').innerHTML =
-        '<span>// viewer unavailable</span>Google Docs viewer couldn\'t load this PDF. Click below to open it directly.';
-    }
-    function closePDF() {
-      document.getElementById('pdfModal').classList.remove('open');
-      document.body.style.overflow = '';
-      setTimeout(()=>{ document.getElementById('pdfFrame').src=''; }, 300);
-    }
-    // Hide custom cursor when mouse enters iframe (iframes block parent mousemove)
-    document.getElementById('pdfFrame').addEventListener('mouseenter', () => {
-      cursor.style.opacity = '0'; ring.style.opacity = '0';
-    });
-    document.getElementById('pdfFrame').addEventListener('mouseleave', () => {
-      cursor.style.opacity = '1'; ring.style.opacity = '0.4';
-    });
-    document.getElementById('pdfModal').addEventListener('click', function(e){ if(e.target===this) closePDF(); });
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePDF(); });
-  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>

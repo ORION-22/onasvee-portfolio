@@ -7,21 +7,20 @@ window.addEventListener('scroll',()=>{document.getElementById('navbar').classLis
 
 const html=document.documentElement, btn=document.getElementById('themeToggle');
 
-// Palette list (mirrors head script)
 const palettes = [
-  { name:'ferrari',       dark:'#FF2D55', dark2:'#FF6B35', light:'#CC0023', light2:'#A00018' },
-  { name:'mclaren',       dark:'#FF8000', dark2:'#FFD60A', light:'#C45E00', light2:'#8A4200' },
-  { name:'red bull',      dark:'#6AA8FF', dark2:'#FFD700', light:'#1B39A0', light2:'#0D2070' },
-  { name:'mercedes',      dark:'#00D2BE', dark2:'#C0D0CC', light:'#007A6E', light2:'#005048' },
-  { name:'alpine',        dark:'#FF87BC', dark2:'#0093CC', light:'#BE185D', light2:'#0369A1' },
-  { name:'aston martin',  dark:'#00FF87', dark2:'#00E8A0', light:'#006340', light2:'#004A2F' },
-  { name:'williams',      dark:'#37BEDD', dark2:'#7DD3FC', light:'#0047AB', light2:'#003380' },
-  { name:'haas',          dark:'#FF4444', dark2:'#CCCCCC', light:'#CC0000', light2:'#888888' },
-  { name:'kick sauber',   dark:'#39FF14', dark2:'#00C4B4', light:'#166534', light2:'#0D4A2A' },
-  { name:'racing bulls',  dark:'#7B9FFF', dark2:'#B3C6FF', light:'#2B3FAA', light2:'#1A2880' },
+  { name: 'ferrari',      dark: '#EF1A2D', dark2: '#FF4A5A', light: '#A6051A', light2: '#73000E' },
+  { name: 'mclaren',      dark: '#FF8700', dark2: '#FFA842', light: '#C26600', light2: '#8F4B00' },
+  { name: 'red bull',     dark: '#3330FF', dark2: '#FFEA33', light: '#0600EF', light2: '#030078' },
+  { name: 'mercedes',     dark: '#00D2BE', dark2: '#E0E6ED', light: '#007A6E', light2: '#004F47' },
+  { name: 'alpine',       dark: '#FF66D6', dark2: '#3385FF', light: '#FD4BC7', light2: '#0058BB' },
+  { name: 'aston martin', dark: '#00A699', dark2: '#E4F533', light: '#00665E', light2: '#00423D' },
+  { name: 'williams',     dark: '#33C5FF', dark2: '#335CFF', light: '#00A3E0', light2: '#041E42' },
+  { name: 'haas',         dark: '#FF3352', dark2: '#E0E0E0', light: '#E6002B', light2: '#202020' },
+  { name: 'audi',         dark: '#FF244D', dark2: '#CCCCCC', light: '#D40026', light2: '#1A1A1A' },
+  { name: 'racing bulls', dark: '#3B5CFF', dark2: '#FF3333', light: '#1534CC', light2: '#B30000' },
+  { name: 'cadillac',     dark: '#FFCE33', dark2: '#FF4752', light: '#C99B00', light2: '#8F141B' }
 ];
 
-// Go to top button
 const goTop = document.getElementById('goTop');
 window.addEventListener('scroll', () => {
   goTop.classList.toggle('visible', window.scrollY > 400);
@@ -35,11 +34,9 @@ function applyPalette(p, theme) {
   document.getElementById('colorName').textContent = p.name;
 }
 
-// Init colour dot from head-applied palette
 const initIdx = +(html.dataset.palette || 0);
 applyPalette(palettes[initIdx]);
 
-// Theme toggle — reapply correct accent for new theme
 const savedTheme = localStorage.getItem('theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 applyPalette(palettes[initIdx], savedTheme);
@@ -51,7 +48,6 @@ btn.addEventListener('click', () => {
   applyPalette(palettes[+(html.dataset.palette||0)], next);
 });
 
-// Reroll button — pick a new random palette (different from current)
 document.getElementById('colorBtn').addEventListener('click', () => {
   let newIdx;
   const cur = +(html.dataset.palette||0);
@@ -70,7 +66,7 @@ setTimeout(type,1500);
 const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80);});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// PDF MODAL — Google Docs Viewer for direct PDFs, auto-open for DOI links
+// PDF MODAL
 let currentPdfUrl = '';
 function openPDF(url, title, journal) {
   currentPdfUrl = url;
@@ -89,14 +85,12 @@ function openPDF(url, title, journal) {
   const isDOI = url.includes('doi.org');
 
   if (isDOI) {
-    // DOI links redirect and can't be proxied — open in new tab and show message
     window.open(url, '_blank');
     document.getElementById('pdfLoading').style.display = 'none';
     document.getElementById('pdfFallback').classList.add('show');
     document.getElementById('fallbackMsg').innerHTML =
       '<span>// opened in new tab</span>This paper was opened in a new tab since the publisher does not support embedded viewing. If nothing opened, click the button below.';
   } else {
-    // Use Google Docs Viewer as proxy for direct PDF links
     frame.src = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
     let timer = setTimeout(showFallback, 10000);
     frame.onload = () => { clearTimeout(timer); document.getElementById('pdfLoading').style.display = 'none'; };
@@ -114,7 +108,6 @@ function closePDF() {
   document.body.style.overflow = '';
   setTimeout(()=>{ document.getElementById('pdfFrame').src=''; }, 300);
 }
-// Hide custom cursor when mouse enters iframe (iframes block parent mousemove)
 document.getElementById('pdfFrame').addEventListener('mouseenter', () => {
   cursor.style.opacity = '0'; ring.style.opacity = '0';
 });
