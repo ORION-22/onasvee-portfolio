@@ -228,11 +228,24 @@ function phase1() {
         }, ENTRY_DELAY);
       }
 
-      function finish() {
+function finish() {
         driver.classList.remove('pushing');
         hideStatus();
         setTimeout(() => typeStatus('// welcome to my world.', 25), 100);
-        setTimeout(() => window.skipLoader(), EXIT_DELAY + 300);
+        setTimeout(() => {
+          window.skipLoader();
+          
+          if (typeof window.startPortfolioTyping === 'function') {
+            window.startPortfolioTyping();
+          }
+
+          // Trigger the visual hint on the color dot 2 seconds after the loader clears
+          setTimeout(() => {
+            const dot = document.getElementById('colorDot');
+            if(dot) dot.classList.add('hint-pulse');
+          }, 2000);
+
+        }, EXIT_DELAY + 300);
       }
 
       phase1();

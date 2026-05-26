@@ -570,3 +570,15 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   .driver { height: 45px; }
   .track-area { height: 80px; }
 }
+
+/* Gentle pulse animation to draw attention to the color toggle */
+@keyframes colorDotPulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); }
+  70% { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* We will apply this class using JS so it fires exactly when we want */
+.hint-pulse {
+  animation: colorDotPulse 1.5s ease-out 3; /* Pulses exactly 3 times, then stops forever */
+}
