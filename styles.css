@@ -1,3 +1,21 @@
+/* 1. Register the CSS variables as animate-able colors */
+@property --accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #a8ff78;
+}
+
+@property --accent2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #78ffd6;
+}
+
+/* 2. Apply a global transition to those variables */
+html {
+  transition: --accent 1s ease, --accent2 1s ease;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root, [data-theme="dark"] {
@@ -17,11 +35,41 @@
 }
 
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; cursor: none; transition: background 0.4s, color 0.4s; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; transition: background 0.4s, color 0.4s; }
 
-.cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10002; }
-.cursor-ring { width: 32px; height: 32px; border: 1px solid var(--accent); opacity: 0.4; border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10001; }
-.pdf-modal-body iframe { cursor: default; }
+/* CUSTOM CURSOR (desktop only via JS) */
+.cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10002;
+  transition: opacity 0.2s;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--accent);
+  opacity: 0.4;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10001;
+  transition: opacity 0.2s;
+}
+
+/* Hide on touch by default (JS removes them, this is fallback) */
+@media (pointer: coarse) {
+  .cursor, .cursor-ring { display: none !important; }
+  body { cursor: auto !important; }
+}
 
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -204,9 +252,6 @@ section { padding: 110px 48px; position: relative; }
 .contact-link { font-family: var(--mono); font-size: 12px; color: var(--text); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; padding-bottom: 4px; border-bottom: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
 .contact-link:hover { color: var(--accent); border-color: var(--accent); }
 
-footer { padding: 22px 48px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.footer-left, .footer-right { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
-.footer-right span { color: var(--accent); }
 
 /* GO TO TOP */
 .go-top {

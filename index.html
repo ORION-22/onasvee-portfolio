@@ -4,6 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Onasvee Banarse — MS CS @ UMass Amherst</title>
+
+<meta name="title" content="Onasvee Banarse — MS CS @ UMass Amherst">
+  <meta name="description" content="QA Automation Engineer & ML Researcher. Actively seeking Fall AI/ML and Software Engineering Internships.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://orion-22.github.io/">
+  <meta property="og:title" content="Onasvee Banarse — MS CS @ UMass Amherst">
+  <meta property="og:description" content="QA Automation Engineer & ML Researcher. Actively seeking Fall AI/ML and Software Engineering Internships.">
+  <meta property="og:image" content="https://orion-22.github.io/preview-image.jpg">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://orion-22.github.io/">
+  <meta property="twitter:title" content="Onasvee Banarse — MS CS @ UMass Amherst">
+  <meta property="twitter:description" content="QA Automation Engineer & ML Researcher. Actively seeking Fall AI/ML and Software Engineering Internships.">
+  <meta property="twitter:image" content="https://orion-22.github.io/preview-image.jpg">
+
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -279,22 +295,28 @@ function finish() {
         <span class="toggle-icon-light">☀️</span>
         <div class="toggle-knob"></div>
       </button>
+
+      <button id="termNavBtn" title="Toggle terminal [ ` ]" style="background:none;border:1px solid var(--border);border-radius:999px;padding:5px 10px;cursor:none;display:flex;align-items:center;gap:4px;transition:border-color 0.2s;" onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)'">
+  <span style="font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:700;">&gt;_</span>
+</button>
     </div>
   </nav>
 
   <section id="hero">
     <div class="hero-grid-bg"></div>
     <div class="hero-content">
-      <div class="hero-tag">// system.init — open to internships & full-time roles</div>
+      <!-- <div class="hero-tag">// system.init — open to internships & full-time roles</div> -->
+      <div class="hero-tag">// system.init — open to internships & full-time roles · CPT Eligible</div>
       <h1 class="hero-name">Onasvee<br>Banarse<span>.</span></h1>
       <p class="hero-title" id="typed-text">MS CS @ UMass Amherst · <span class="typed-cursor">|</span></p>
       <p class="hero-desc">
-Engineer who has spent several years breaking systems in order to design and deliver new systems through Reliance Jio. Presently working towards a Master's degree in Computer Science, focusing on Quality Assurance, Machine Learning, and Software Engineering, to create fast, reliable systems.      </p>
+Engineer who has spent several years breaking systems in order to design and deliver new systems through Reliance Jio. Presently working towards a Master's degree in Computer Science, focusing on Machine Learning, Software Engineering and Quality Assurance,  to create fast, reliable systems.    <br><br>
+<span style="font-family:var(--mono); font-size:12px; color:var(--accent); display:block;">// press [ ` ] or click &gt;_ to launch terminal</span>  </p>
+
       <div class="hero-ctas">
         <a href="#projects" class="btn-primary">View My Work</a>
         <a href="#contact" class="btn-outline">Get in Touch</a>
-<a href="javascript:void(0)" onclick="openPDF('https://raw.githubusercontent.com/ORION-22/onasvee-portfolio/main/Onasvee_Banarse_Resume.pdf', 'Onasvee Banarse', 'Resume')" class="btn-outline" style="display: inline-flex; align-items: center; gap: 8px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+<a href="javascript:void(0)" onclick="openPDF('https://raw.githubusercontent.com/ORION-22/orion-22.github.io/main/Onasvee_Banarse_Resume.pdf', 'Onasvee Banarse', 'Resume')" class="btn-outline" style="display: inline-flex; align-items: center; gap: 8px;">          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
           View Resume
         </a>
       </div>
@@ -320,7 +342,10 @@ Engineer who has spent several years breaking systems in order to design and del
         <p>I'm <strong>Onasvee Banarse</strong>, a graduate CS student at <span class="highlight">UMass Amherst</span>, and a published researcher with a background in QA automation and cybersecurity.</p>
         <p>Before grad school, I was an <strong>Associate QA Engineer at Reliance Jio Platforms</strong> — one of India's largest tech companies where I built Selenium frameworks, validated OAuth2/OIDC SSO flows, and cut regression effort by 10+ hours a week.</p>
         <p>My research spans <strong>deep learning for image forensics</strong> and GANs, with three co-authored publications. I bring both engineering rigor and research curiosity to everything I build.</p>
-        <p>Based in <strong>Amherst, MA</strong> · Open to US internships & full-time roles · Available for on-site and remote.</p>
+        <p style="margin-top: 24px; padding: 12px 16px; border-left: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 5%, transparent);">
+          <strong style="color: var(--text);">// Logistical Status</strong><br>
+          Based in <strong>Amherst, MA</strong> · Actively seeking <strong>Fall Internships</strong> in the US · <strong>CPT Eligible</strong> · Available for on-site and remote roles.
+        </p>
       </div>
       <div class="about-stats reveal">
         <div class="stat-box"><div class="stat-num">2+</div><div class="stat-label">Years Industry QA Exp</div></div>
@@ -598,6 +623,21 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
         </div>
       </div>
 
+      <div class="project-card reveal" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: transparent; border: 1px dashed var(--border); box-shadow: none;">
+        <div style="color: var(--muted); margin-bottom: 16px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h3 class="project-title" style="margin-bottom: 8px;">More in the works...</h3>
+        <p class="project-desc" style="max-width: 280px; margin-bottom: 24px; font-size: 14px;">I am constantly building, breaking, and experimenting with new systems. Catch my latest commits and ongoing work over on GitHub.</p>
+        <a href="https://github.com/ORION-22" target="_blank" class="btn-outline" style="padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 11px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          View GitHub Profile
+        </a>
+      </div>
+
     </div>
   </section>
 
@@ -766,8 +806,7 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
         GitHub
       </a>
-      <a href="javascript:void(0)" onclick="openPDF('https://raw.githubusercontent.com/ORION-22/onasvee-portfolio/main/Onasvee_Banarse_Resume.pdf', 'Onasvee Banarse', 'Resume')" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+<a href="javascript:void(0)" onclick="openPDF('https://raw.githubusercontent.com/ORION-22/orion-22.github.io/main/Onasvee_Banarse_Resume.pdf', 'Onasvee Banarse', 'Resume')" class="btn-outline" style="display: inline-flex; align-items: center; gap: 8px;">        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
         View Resume
       </a>
       <a href="tel:+14132758451" class="contact-link" style="display: inline-flex; align-items: center; gap: 8px;">
@@ -776,11 +815,6 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
       </a>
     </div>
   </section>
-
-  <footer>
-    <div class="footer-left">© 2025 — Onasvee Banarse · Built with HTML/CSS/JS</div>
-    <div class="footer-right">Hosted on <span>GitHub Pages</span></div>
-  </footer>
 
   <button class="go-top" id="goTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -824,138 +858,112 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
     </div>
   </div>
 
-  <!-- ── TERMINAL BUTTON ──────────────────────────────────── -->
-<button class="term-btn" id="termBtn" title="Terminal [ ` ]">&gt;_</button>
- 
- 
-<!-- ── TERMINAL PANEL ───────────────────────────────────── -->
-<div class="term-panel" id="termPanel">
-  <div class="term-header">
-    <span class="term-title">// terminal</span>
-    <span class="term-hint">` to toggle &nbsp;·&nbsp; ESC to close</span>
-    <button class="term-close" id="termClose">✕</button>
-  </div>
-  <div class="term-output" id="termOutput"></div>
-  <div class="term-input-row">
-    <span class="term-prompt">&gt;</span>
-    <input
-      class="term-input"
-      id="termInput"
-      type="text"
-      autocomplete="off"
-      spellcheck="false"
-      placeholder="type 'help'"
-    />
-    <span class="term-ghost" id="termGhost"></span>
-  </div>
-</div>
- 
- 
-<!-- ── GENERIC EASTER EGG POPUP ─────────────────────────── -->
-<div class="egg-overlay" id="eggOverlay">
-  <div class="egg-window">
-    <div class="egg-window-header">
-      <span class="egg-window-title" id="eggTitle">// easter_egg</span>
-      <button class="egg-window-close" id="eggClose">✕</button>
-    </div>
-    <div class="egg-window-body" id="eggBody"></div>
-  </div>
-</div>
- 
- 
-<!-- ── KONAMI CODE — CLASSIFIED DOSSIER ─────────────────── -->
-<div class="konami-overlay" id="konamiOverlay">
-  <div class="konami-modal">
- 
-    <div class="konami-modal-header">
-      <span>// CLASSIFIED — LEVEL 5 CLEARANCE REQUIRED</span>
-      <button onclick="closeKonami()">✕</button>
-    </div>
- 
-    <div class="konami-body">
-      <div class="konami-stamp">CLASSIFIED</div>
- 
-      <div class="konami-doc-title">
-        SUBJECT DOSSIER — PERSONAL INTELLIGENCE FILE &nbsp;·&nbsp; REF: OB-2025-ALPHA
-      </div>
- 
-      <div class="konami-row">
-        <span class="konami-label">Subject</span>
-        <span class="konami-val konami-accent">Onasvee Banarse</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Status</span>
-        <span class="konami-val">Active · Seeking internship / full-time</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Location</span>
-        <span class="konami-val">Amherst, MA &nbsp;<span class="konami-redact">███ coordinates redacted</span></span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Clearance</span>
-        <span class="konami-val"><span class="konami-redact">██████████████</span></span>
-      </div>
- 
-      <hr class="konami-divider">
- 
-      <div class="konami-doc-title">FIELD INTELLIGENCE — PERSONAL STATS</div>
- 
-      <div class="konami-row">
-        <span class="konami-label">F1 races watched</span>
-        <span class="konami-val konami-accent">847</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Favourite driver</span>
-        <span class="konami-val">Lewis Hamilton &nbsp;<span class="konami-redact">bias confirmed</span></span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Rovers tracked</span>
-        <span class="konami-val">5 &nbsp;·&nbsp; Perseverance, Curiosity, <span class="konami-redact">███████</span></span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Bugs squashed</span>
-        <span class="konami-val"><span class="konami-redact">████████████████</span> &nbsp;(classified)</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Coffee consumed</span>
-        <span class="konami-val"><span class="konami-redact">███</span> litres in 2024 alone</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Deepest rabbit hole</span>
-        <span class="konami-val">GAN architecture at 2am before a deployment</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Terminal uptime</span>
-        <span class="konami-val konami-accent" id="konamiUptime">calculating...</span>
-      </div>
- 
-      <hr class="konami-divider">
- 
-      <div class="konami-doc-title">THREAT ASSESSMENT</div>
- 
-      <div class="konami-row">
-        <span class="konami-label">Threat level</span>
-        <span class="konami-val konami-accent">HIGH &nbsp;·&nbsp; Will ship faster than expected</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Known weaknesses</span>
-        <span class="konami-val">F1 qualifying sessions, NASA launch streams</span>
-      </div>
-      <div class="konami-row">
-        <span class="konami-label">Recommended action</span>
-        <span class="konami-val konami-accent">HIRE IMMEDIATELY</span>
-      </div>
- 
-      <div class="konami-footer">
-        DOCUMENT CLASSIFICATION: TOP SECRET &nbsp;·&nbsp;
-        UNAUTHORISED ACCESS IS A VIOLATION OF CODE SECTION <span class="konami-redact">███</span> &nbsp;·&nbsp;
-        YOU FOUND THE KONAMI CODE. CONGRATS.
+<!-- ══════════════════════════════════════════════════════════
+       FOOTER WITH EMBEDDED TERMINAL
+       ══════════════════════════════════════════════════════════ -->
+  <footer id="siteFooter">
+    <div class="footer-terminal" id="footerTerminal">
+      <div class="footer-term-output" id="termOutput"></div>
+      <div class="footer-term-input-row">
+        <span class="term-prompt">❯</span>
+        <input
+          class="term-input"
+          id="termInput"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="type 'help' for commands.."
+        />
+        <span class="term-ghost" id="termGhost"></span>
+        <button class="term-toggle-btn" id="termBtn" title="Toggle terminal [ ` ]">⌃</button>
       </div>
     </div>
- 
-  </div>
-</div>
+    <div class="footer-bottom">
+      <div class="footer-left">© 2025 — Onasvee Banarse · Built with HTML/CSS/JS</div>
+      <div class="footer-right">Hosted on <span>GitHub Pages</span></div>
+    </div>
+  </footer>
 
+
+  <!-- ── BACK TO TOP ─────────────────────────────────────── -->
+  <button class="go-top" id="goTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+
+  <!-- ── GENERIC EASTER EGG POPUP ─────────────────────────── -->
+  <div class="egg-overlay" id="eggOverlay">
+    <div class="egg-window">
+      <div class="egg-window-header">
+        <span class="egg-window-title" id="eggTitle">// easter_egg</span>
+        <button class="egg-window-close" id="eggClose">✕</button>
+      </div>
+      <div class="egg-window-body" id="eggBody"></div>
+    </div>
+  </div>
+
+
+  <!-- ── KONAMI CODE — CLASSIFIED DOSSIER ─────────────────── -->
+  <div class="konami-overlay" id="konamiOverlay">
+    <div class="konami-modal">
+      <div class="konami-modal-header">
+        <span>// CLASSIFIED — LEVEL 5 CLEARANCE REQUIRED</span>
+        <button onclick="document.getElementById('konamiOverlay').classList.remove('open')">✕</button>
+      </div>
+      <div class="konami-body">
+<div class="konami-stamp">CONFIDENTIAL</div>
+        
+        <div class="konami-doc-title">Subject Dossier // Asset #22-OB</div>
+
+        <div class="konami-row">
+          <div class="konami-label">Subject Name</div>
+          <div class="konami-val">Onasvee Banarse</div>
+        </div>
+        
+        <div class="konami-row">
+          <div class="konami-label">Current Coordinates</div>
+          <div class="konami-val">Amherst, MA <span class="konami-accent">[ACTIVE]</span></div>
+        </div>
+        
+        <div class="konami-row">
+          <div class="konami-label">Primary Objective</div>
+          <div class="konami-val">Secure Fall Internship in Software Engineering / AI & ML</div>
+        </div>
+        
+        <div class="konami-row">
+          <div class="konami-label">Known Aliases</div>
+          <div class="konami-val">ORION-22, <span class="konami-redact">CLASSIFIED</span></div>
+        </div>
+        
+        <div class="konami-row">
+          <div class="konami-label">Past Affiliations</div>
+          <div class="konami-val">Reliance Jio Platforms [2023—2025]<br><span class="konami-accent">Status: Mission Accomplished</span></div>
+        </div>
+
+        <hr class="konami-divider">
+
+        <div class="konami-doc-title">Skills & Arsenal</div>
+        
+        <div class="konami-row">
+          <div class="konami-label">Weapons of Choice</div>
+          <div class="konami-val">Python, Java, Selenium, TensorFlow, PostgreSQL</div>
+        </div>
+        
+        <div class="konami-row">
+          <div class="konami-label">Special Abilities</div>
+          <div class="konami-val">Reducing regression effort by 10+ hours/week. Image Forgery Detection. Breaking APIs to build better ones.</div>
+        </div>
+
+        <div class="konami-footer">
+          // END OF FILE. THIS MESSAGE WILL NOT SELF-DESTRUCT.
+        </div>      </div>
+    </div>
+  </div>
+
+
+  <!-- ── SCRIPTS ──────────────────────────────────────────── -->
   <script src="script.js" defer></script>
   <script src="terminal.js"></script>
 

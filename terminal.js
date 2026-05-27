@@ -1,17 +1,32 @@
 /* ============================================================
-   TERMINAL + EASTER EGGS
-   Append this entire block to the bottom of your script.js
+   TERMINAL + EASTER EGGS (FOOTER EMBEDDED VERSION)
    ============================================================ */
 
 (function () {
 
   /* ── ELEMENTS ───────────────────────────────────────────── */
-  const termBtn    = document.getElementById('termBtn');
-  const termPanel  = document.getElementById('termPanel');
-  const termInput  = document.getElementById('termInput');
-  const termOutput = document.getElementById('termOutput');
-  const termClose  = document.getElementById('termClose');
-  const termGhost  = document.getElementById('termGhost');
+/* Look for the element declarations at the top of terminal.js and add termNavBtn: */
+const termBtn      = document.getElementById('termBtn');
+const termNavBtn   = document.getElementById('termNavBtn'); // <-- Add this line
+const termInput    = document.getElementById('termInput');
+const termOutput   = document.getElementById('termOutput');
+const termGhost    = document.getElementById('termGhost');
+const footerTerm   = document.getElementById('footerTerminal');
+
+/* Scroll all the way down to the event listeners area (around line 155) and add: */
+if (termNavBtn) {
+  termNavBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevents click-outside from instantly closing it
+    openTerm();
+    // Ensures a smooth focus-scroll into view after opening
+    setTimeout(() => {
+      document.getElementById('siteFooter').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 150);
+  });
+}
+
+  /* Safety check */
+  if (!termInput || !termOutput || !footerTerm) return;
 
   /* ── SECTION MAP ────────────────────────────────────────── */
   const NAV = {
@@ -27,10 +42,10 @@
     contact:        '#contact',
   };
 
-  /* ── ALL KNOWN COMMANDS (for autocomplete) ──────────────── */
+/* ── ALL KNOWN COMMANDS (for autocomplete) ──────────────── */
   const ALL_CMDS = [
     ...Object.keys(NAV),
-    'help', 'clear', 'whoami',
+    'help', 'help easter', 'clear', 'whoami', // <-- added 'help easter' here
     'theme dark', 'theme light', 'theme f1', 'theme space',
     'race', 'rover', 'jwst', 'telescope', 'launch',
     'konami',
@@ -42,23 +57,21 @@
 
   /* ── OPEN / CLOSE ───────────────────────────────────────── */
   function openTerm() {
-    termPanel.classList.add('open');
-    termBtn.classList.add('active');
+    footerTerm.classList.add('open');
     setTimeout(() => termInput.focus(), 50);
-    // Print welcome on first open
     if (termOutput.childElementCount === 0) {
       printWelcome();
     }
+    footerTerm.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }
 
   function closeTerm() {
-    termPanel.classList.remove('open');
-    termBtn.classList.remove('active');
+    footerTerm.classList.remove('open');
     termInput.blur();
   }
 
   function toggleTerm() {
-    termPanel.classList.contains('open') ? closeTerm() : openTerm();
+    footerTerm.classList.contains('open') ? closeTerm() : openTerm();
   }
 
   /* ── PRINT HELPERS ──────────────────────────────────────── */
@@ -79,7 +92,7 @@
   function printWelcome() {
     line('// onasvee.dev — terminal v1.0', 'accent');
     line("type 'help' for available commands");
-    line("press ` or click >_ to toggle");
+    line("press ` or click ⌃ to toggle");
     gap();
   }
 
@@ -115,7 +128,7 @@
       gap(); return;
     }
 
-    /* help */
+ /* help */
     if (cmd === 'help') {
       line('navigation:');
       line('  home · about · education · skills');
@@ -124,17 +137,23 @@
       gap();
       line('theme:');
       line('  theme dark  |  theme light');
-      gap();
-      line('easter eggs:');
-      line('  race        — F1 race simulation');
-      line('  rover       — NASA rover mission control');
-      line('  jwst        — astronomy picture of the day');
-      line('  launch      — SpaceX launch countdown');
+      line('  theme f1    |  theme space');
       gap();
       line('other:');
       line('  whoami      — about this terminal');
       line('  clear       — clear output');
+      line('  help easter — [CLASSIFIED]');
       line('  konami      — hint: ↑↑↓↓←→←→BA');
+      gap(); return;
+    }
+
+    /* help easter */
+    if (cmd === 'help easter') {
+      line('// easter eggs unlocked', 'accent');
+      line('  race        — F1 race simulation');
+      line('  rover       — NASA rover mission control');
+      line('  jwst        — astronomy picture of the day');
+      line('  launch      — SpaceX launch countdown');
       gap(); return;
     }
 
@@ -154,55 +173,28 @@
     }
 
     /* theme */
-    if (cmd === 'theme dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-      applyPalette(palettes[+(document.documentElement.dataset.palette || 0)], 'dark');
-      line('→ theme set to dark', 'accent');
-      gap(); return;
-    }
-    if (cmd === 'theme light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-      applyPalette(palettes[+(document.documentElement.dataset.palette || 0)], 'light');
-      line('→ theme set to light', 'accent');
-      gap(); return;
-    }
-    if (cmd === 'theme f1' || cmd === 'theme space') {
-      line(`→ ${cmd} — coming in next update 🚧`, 'accent');
+    if (cmd.startsWith('theme ')) {
+      const theme = cmd.split(' ')[1];
+      if (['dark', 'light', 'f1', 'space'].includes(theme)) {
+        document.documentElement.setAttribute('data-theme', theme);
+        line(`→ theme set to '${theme}'`, 'accent');
+      } else {
+        line(`unknown theme: '${theme}'`, 'err');
+        line("available: dark, light, f1, space");
+      }
       gap(); return;
     }
 
-    /* ── EASTER EGGS ──────────────────────────────────────── */
+    /* easter eggs */
+    if (['race', 'rover', 'jwst', 'telescope', 'launch'].includes(cmd)) {
+      openEggWindow(cmd === 'telescope' ? 'jwst' : cmd);
+      gap(); return;
+    }
 
-    /* konami — just a hint, actual trigger is the key sequence */
+    /* konami */
     if (cmd === 'konami') {
-      line('hint: try ↑ ↑ ↓ ↓ ← → ← → B A', 'accent');
-      line('(arrow keys + B + A, in sequence)');
-      gap(); return;
-    }
-
-    /* race — coming soon stub */
-    if (cmd === 'race') {
-      openEggWindow('race');
-      gap(); return;
-    }
-
-    /* rover — coming soon stub */
-    if (cmd === 'rover') {
-      openEggWindow('rover');
-      gap(); return;
-    }
-
-    /* jwst / telescope */
-    if (cmd === 'jwst' || cmd === 'telescope') {
-      openEggWindow('jwst');
-      gap(); return;
-    }
-
-    /* launch */
-    if (cmd === 'launch') {
-      openEggWindow('launch');
+      line('hint: ↑ ↑ ↓ ↓ ← → ← → B A', 'accent');
+      line('try it anywhere on the page...');
       gap(); return;
     }
 
@@ -218,8 +210,19 @@
       const val = termInput.value;
       termInput.value = '';
       termGhost.textContent = '';
-      runCommand(val);
+      // Auto-open if collapsed
+      if (!footerTerm.classList.contains('open')) {
+        openTerm();
+        setTimeout(() => runCommand(val), 100);
+      } else {
+        runCommand(val);
+      }
+          // Forces the browser to scroll down and keep the input visible as the terminal expands
+      setTimeout(() => {
+        termInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 150);
     }
+
 
     /* Tab → accept autocomplete */
     if (e.key === 'Tab') {
@@ -246,105 +249,90 @@
     if (e.key === 'Escape') closeTerm();
   });
 
+  /* Focus input → auto open */
+  termInput.addEventListener('focus', () => {
+    if (!footerTerm.classList.contains('open')) openTerm();
+  });
+
+  /* Toggle button */
+  termBtn.addEventListener('click', toggleTerm);
+
   /* Backtick anywhere toggles terminal */
   document.addEventListener('keydown', e => {
-    if (e.key === '`' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+    if (e.key === '`' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
       e.preventDefault();
       toggleTerm();
+      if (!footerTerm.classList.contains('open')) {
+        document.getElementById('siteFooter').scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
     }
   });
 
-  termBtn.addEventListener('click', toggleTerm);
-  termClose.addEventListener('click', closeTerm);
-
   /* Click outside to close */
   document.addEventListener('click', e => {
-    if (termPanel.classList.contains('open') &&
-        !termPanel.contains(e.target) &&
-        !termBtn.contains(e.target)) {
+    if (footerTerm.classList.contains('open') &&
+        !footerTerm.contains(e.target)) {
       closeTerm();
     }
   });
 
   /* ── GENERIC EASTER EGG POPUP ───────────────────────────── */
   const EGG_CONFIG = {
-    race:  { icon: '🏎️', label: '// f1_race.sim', msg: 'F1 race simulation — coming soon.\nFive cars. One track. HIRE ME always podiums.' },
-    rover: { icon: '🛸', label: '// nasa_rover.telemetry', msg: 'NASA rover mission control — coming soon.\nReal Perseverance data via NASA open API.' },
-    jwst:  { icon: '🔭', label: '// jwst.apod', msg: 'Astronomy Picture of the Day — coming soon.\nDaily NASA imagery via APOD API.' },
-    launch:{ icon: '🚀', label: '// spacex.launch_countdown', msg: 'SpaceX launch countdown — coming soon.\nNext launch data via The Space Devs API.' },
+    race:   { icon: '🏎️', label: '// f1_race.sim',           msg: 'F1 race simulation — coming soon.\nFive cars. One track. HIRE ME always podiums.' },
+    rover:  { icon: '🛸', label: '// nasa_rover.telemetry',   msg: 'NASA rover mission control — coming soon.\nReal Perseverance data via NASA open API.' },
+    jwst:   { icon: '🔭', label: '// jwst.apod',              msg: 'Astronomy Picture of the Day — coming soon.\nDaily NASA imagery via APOD API.' },
+    launch: { icon: '🚀', label: '// spacex.launch_countdown', msg: 'SpaceX launch countdown — coming soon.\nNext launch data via The Space Devs API.' },
   };
 
   const eggOverlay = document.getElementById('eggOverlay');
   const eggTitle   = document.getElementById('eggTitle');
   const eggBody    = document.getElementById('eggBody');
+  const eggClose   = document.getElementById('eggClose');
 
   function openEggWindow(key) {
     const cfg = EGG_CONFIG[key];
-    if (!cfg) return;
+    if (!cfg || !eggOverlay) return;
     eggTitle.textContent = cfg.label;
-    eggBody.innerHTML = `
-      <div class="egg-coming-soon">
-        <div class="egg-icon">${cfg.icon}</div>
-        <div class="egg-cmd">${key}</div>
-        <div class="egg-msg">${cfg.msg.replace(/\n/g,'<br>')}</div>
-      </div>`;
+    eggBody.textContent = `${cfg.icon}\n\n${cfg.msg}`;
     eggOverlay.classList.add('open');
-    closeTerm();
   }
 
-  document.getElementById('eggClose').addEventListener('click', () => {
-    eggOverlay.classList.remove('open');
-  });
-  eggOverlay.addEventListener('click', e => {
-    if (e.target === eggOverlay) eggOverlay.classList.remove('open');
+  function closeEggWindow() {
+    if (eggOverlay) eggOverlay.classList.remove('open');
+  }
+
+  if (eggClose) eggClose.addEventListener('click', closeEggWindow);
+  if (eggOverlay) eggOverlay.addEventListener('click', e => {
+    if (e.target === eggOverlay) closeEggWindow();
   });
 
-  /* ── KONAMI CODE ─────────────────────────────────────────── */
-  const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown',
-                  'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight',
-                  'b','a'];
+  // Make openEggWindow available globally (for other scripts)
+  window.openEggWindow = openEggWindow;
+
+  /* ── KONAMI CODE ────────────────────────────────────────── */
+  const konamiOverlay = document.getElementById('konamiOverlay');
+  const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
   let konamiIdx = 0;
 
   document.addEventListener('keydown', e => {
-    if (e.key === KONAMI[konamiIdx]) {
+    if (e.code === konamiSeq[konamiIdx]) {
       konamiIdx++;
-      if (konamiIdx === KONAMI.length) {
+      if (konamiIdx === konamiSeq.length) {
         konamiIdx = 0;
-        openKonami();
+        if (konamiOverlay) konamiOverlay.classList.add('open');
       }
     } else {
-      konamiIdx = e.key === KONAMI[0] ? 1 : 0;
+      konamiIdx = 0;
     }
   });
 
-  const konamiOverlay = document.getElementById('konamiOverlay');
-
-  function openKonami() {
-    konamiOverlay.classList.add('open');
-    closeTerm();
-    // Live uptime counter
-    const start = Date.now();
-    const uptimeEl = document.getElementById('konamiUptime');
-    const tick = () => {
-      if (!konamiOverlay.classList.contains('open')) return;
-      const s = Math.floor((Date.now() - performance.timing.navigationStart) / 1000);
-      const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
-      uptimeEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')} this session`;
-      setTimeout(tick, 1000);
-    };
-    tick();
+  // Close konami
+  if (konamiOverlay) {
+    konamiOverlay.addEventListener('click', e => {
+      if (e.target === konamiOverlay || e.target.closest('button')) {
+        konamiOverlay.classList.remove('open');
+      }
+    });
   }
-
-  window.closeKonami = function () {
-    konamiOverlay.classList.remove('open');
-  };
-
-  konamiOverlay.addEventListener('click', e => {
-    if (e.target === konamiOverlay) closeKonami();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && konamiOverlay.classList.contains('open')) closeKonami();
-  });
 
 })();
