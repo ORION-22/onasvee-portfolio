@@ -10,6 +10,8 @@
   <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="terminal.css">
+
 
   <script>
     // Runs before paint — no flash
@@ -822,6 +824,140 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
     </div>
   </div>
 
+  <!-- ── TERMINAL BUTTON ──────────────────────────────────── -->
+<button class="term-btn" id="termBtn" title="Terminal [ ` ]">&gt;_</button>
+ 
+ 
+<!-- ── TERMINAL PANEL ───────────────────────────────────── -->
+<div class="term-panel" id="termPanel">
+  <div class="term-header">
+    <span class="term-title">// terminal</span>
+    <span class="term-hint">` to toggle &nbsp;·&nbsp; ESC to close</span>
+    <button class="term-close" id="termClose">✕</button>
+  </div>
+  <div class="term-output" id="termOutput"></div>
+  <div class="term-input-row">
+    <span class="term-prompt">&gt;</span>
+    <input
+      class="term-input"
+      id="termInput"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="type 'help'"
+    />
+    <span class="term-ghost" id="termGhost"></span>
+  </div>
+</div>
+ 
+ 
+<!-- ── GENERIC EASTER EGG POPUP ─────────────────────────── -->
+<div class="egg-overlay" id="eggOverlay">
+  <div class="egg-window">
+    <div class="egg-window-header">
+      <span class="egg-window-title" id="eggTitle">// easter_egg</span>
+      <button class="egg-window-close" id="eggClose">✕</button>
+    </div>
+    <div class="egg-window-body" id="eggBody"></div>
+  </div>
+</div>
+ 
+ 
+<!-- ── KONAMI CODE — CLASSIFIED DOSSIER ─────────────────── -->
+<div class="konami-overlay" id="konamiOverlay">
+  <div class="konami-modal">
+ 
+    <div class="konami-modal-header">
+      <span>// CLASSIFIED — LEVEL 5 CLEARANCE REQUIRED</span>
+      <button onclick="closeKonami()">✕</button>
+    </div>
+ 
+    <div class="konami-body">
+      <div class="konami-stamp">CLASSIFIED</div>
+ 
+      <div class="konami-doc-title">
+        SUBJECT DOSSIER — PERSONAL INTELLIGENCE FILE &nbsp;·&nbsp; REF: OB-2025-ALPHA
+      </div>
+ 
+      <div class="konami-row">
+        <span class="konami-label">Subject</span>
+        <span class="konami-val konami-accent">Onasvee Banarse</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Status</span>
+        <span class="konami-val">Active · Seeking internship / full-time</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Location</span>
+        <span class="konami-val">Amherst, MA &nbsp;<span class="konami-redact">███ coordinates redacted</span></span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Clearance</span>
+        <span class="konami-val"><span class="konami-redact">██████████████</span></span>
+      </div>
+ 
+      <hr class="konami-divider">
+ 
+      <div class="konami-doc-title">FIELD INTELLIGENCE — PERSONAL STATS</div>
+ 
+      <div class="konami-row">
+        <span class="konami-label">F1 races watched</span>
+        <span class="konami-val konami-accent">847</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Favourite driver</span>
+        <span class="konami-val">Lewis Hamilton &nbsp;<span class="konami-redact">bias confirmed</span></span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Rovers tracked</span>
+        <span class="konami-val">5 &nbsp;·&nbsp; Perseverance, Curiosity, <span class="konami-redact">███████</span></span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Bugs squashed</span>
+        <span class="konami-val"><span class="konami-redact">████████████████</span> &nbsp;(classified)</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Coffee consumed</span>
+        <span class="konami-val"><span class="konami-redact">███</span> litres in 2024 alone</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Deepest rabbit hole</span>
+        <span class="konami-val">GAN architecture at 2am before a deployment</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Terminal uptime</span>
+        <span class="konami-val konami-accent" id="konamiUptime">calculating...</span>
+      </div>
+ 
+      <hr class="konami-divider">
+ 
+      <div class="konami-doc-title">THREAT ASSESSMENT</div>
+ 
+      <div class="konami-row">
+        <span class="konami-label">Threat level</span>
+        <span class="konami-val konami-accent">HIGH &nbsp;·&nbsp; Will ship faster than expected</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Known weaknesses</span>
+        <span class="konami-val">F1 qualifying sessions, NASA launch streams</span>
+      </div>
+      <div class="konami-row">
+        <span class="konami-label">Recommended action</span>
+        <span class="konami-val konami-accent">HIRE IMMEDIATELY</span>
+      </div>
+ 
+      <div class="konami-footer">
+        DOCUMENT CLASSIFICATION: TOP SECRET &nbsp;·&nbsp;
+        UNAUTHORISED ACCESS IS A VIOLATION OF CODE SECTION <span class="konami-redact">███</span> &nbsp;·&nbsp;
+        YOU FOUND THE KONAMI CODE. CONGRATS.
+      </div>
+    </div>
+ 
+  </div>
+</div>
+
   <script src="script.js" defer></script>
+  <script src="terminal.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,357 @@
+/* ============================================================
+   TERMINAL BUTTON + PANEL
+   Add this block to the bottom of your styles.css
+   ============================================================ */
+
+/* ── BUTTON ──────────────────────────────────────────────── */
+.term-btn {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  z-index: 500;
+  width: 44px;
+  height: 44px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: border-color 0.2s, background 0.2s;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted2);
+  letter-spacing: -0.02em;
+}
+.term-btn:hover,
+.term-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg3));
+}
+
+/* ── PANEL ───────────────────────────────────────────────── */
+.term-panel {
+  position: fixed;
+  bottom: 88px;       /* sits above the button */
+  left: 32px;
+  z-index: 600;
+  width: 360px;
+  max-height: 320px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+}
+.term-panel.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: none;
+}
+
+.term-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.term-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.term-hint {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+.term-close {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted2);
+  background: none;
+  border: none;
+  cursor: none;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color 0.2s;
+}
+.term-close:hover { color: var(--accent); }
+
+/* ── OUTPUT AREA ─────────────────────────────────────────── */
+.term-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.term-output::-webkit-scrollbar { width: 2px; }
+.term-output::-webkit-scrollbar-thumb { background: var(--border); }
+
+.term-line {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.term-line.cmd  { color: var(--text); }
+.term-line.cmd::before { content: '> '; color: var(--accent); }
+.term-line.out  { color: var(--muted2); padding-left: 14px; }
+.term-line.accent { color: var(--accent); padding-left: 14px; }
+.term-line.err  { color: #ff6b6b; padding-left: 14px; }
+.term-line.gap  { height: 4px; }
+
+/* ── INPUT ROW ───────────────────────────────────────────── */
+.term-input-row {
+  padding: 8px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.term-prompt {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.term-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  caret-color: var(--accent);
+  cursor: none;
+}
+.term-input::placeholder { color: var(--muted); }
+
+/* Tab-completion ghost */
+.term-ghost {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* ── KONAMI OVERLAY ──────────────────────────────────────── */
+.konami-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.konami-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.konami-modal {
+  width: min(680px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: #0a0a08;
+  border: 1px solid #333;
+  transform: scale(0.96);
+  transition: transform 0.3s ease;
+  scrollbar-width: thin;
+}
+.konami-overlay.open .konami-modal { transform: scale(1); }
+
+.konami-modal-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.konami-modal-header span {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #ff4444;
+  letter-spacing: 0.2em;
+}
+.konami-modal-header button {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: #555;
+  background: none;
+  border: none;
+  cursor: none;
+  transition: color 0.2s;
+}
+.konami-modal-header button:hover { color: #ff4444; }
+
+.konami-body {
+  padding: 28px 32px 36px;
+}
+
+/* Stamp */
+.konami-stamp {
+  display: inline-block;
+  border: 3px solid #ff4444;
+  color: #ff4444;
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  padding: 6px 16px;
+  transform: rotate(-4deg);
+  opacity: 0.85;
+  margin-bottom: 28px;
+}
+
+.konami-doc-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e1e1e;
+}
+
+.konami-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 12px 24px;
+  margin-bottom: 12px;
+  align-items: baseline;
+}
+.konami-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #555;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.konami-val {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.5;
+}
+.konami-redact {
+  background: #ccc;
+  color: transparent;
+  border-radius: 1px;
+  user-select: none;
+}
+.konami-accent { color: var(--accent); }
+
+.konami-divider {
+  border: none;
+  border-top: 1px solid #1e1e1e;
+  margin: 20px 0;
+}
+
+.konami-footer {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #333;
+  letter-spacing: 0.1em;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #1a1a1a;
+}
+
+/* ── EASTER EGG POPUP (generic for future eggs) ──────────── */
+.egg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.egg-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.egg-window {
+  width: min(560px, 92vw);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  transform: translateY(16px);
+  transition: transform 0.3s ease;
+}
+.egg-overlay.open .egg-window { transform: none; }
+.egg-window-header {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.egg-window-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+}
+.egg-window-close {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--muted2);
+  background: none;
+  border: none;
+  cursor: none;
+  transition: color 0.2s;
+}
+.egg-window-close:hover { color: var(--accent); }
+.egg-window-body {
+  padding: 28px 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted2);
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+}
+.egg-coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+.egg-coming-soon .egg-icon { font-size: 36px; }
+.egg-coming-soon .egg-cmd { color: var(--accent); font-size: 14px; }
+.egg-coming-soon .egg-msg { color: var(--muted2); font-size: 11px; text-align: center; letter-spacing: 0.06em; }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .term-panel { width: calc(100vw - 32px); left: 16px; }
+  .term-btn   { left: 16px; bottom: 16px; }
+}
