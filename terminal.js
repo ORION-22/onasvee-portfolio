@@ -188,6 +188,172 @@ if (termNavBtn) {
     /* easter eggs */
     if (['race', 'rover', 'jwst', 'telescope', 'launch'].includes(cmd)) {
       openEggWindow(cmd === 'telescope' ? 'jwst' : cmd);
+      /* easter eggs */
+/* easter eggs */
+    if (cmd === 'race') {
+      line('→ initializing F1 telemetry in modal...', 'accent');
+      gap();
+
+      // 1. Target your existing Easter Egg Popup
+      const eggOverlay = document.getElementById('eggOverlay');
+      const eggTitle   = document.getElementById('eggTitle');
+      const eggBody    = document.getElementById('eggBody');
+
+      if (!eggOverlay) return;
+
+      // 2. Setup the Popup UI
+      eggTitle.textContent = '// f1_telemetry.sim — 3 LAP SPRINT';
+      eggBody.innerHTML = ''; // Clear out any previous text/canvas
+      eggBody.style.padding = '16px'; 
+
+      // Create the Canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 240;
+      canvas.style.width = '100%';
+      canvas.style.height = 'auto'; // Ensures it scales nicely on smaller screens
+      canvas.style.background = '#0a0a08';
+      canvas.style.border = '1px solid var(--border)';
+      canvas.style.borderRadius = '6px';
+      canvas.style.display = 'block';
+
+      // Inject and open modal
+      eggBody.appendChild(canvas);
+      eggOverlay.classList.add('open');
+
+      const ctx = canvas.getContext('2d');
+
+// 3. Define the Drivers (Equal base speeds for a 100% fair RNG race)
+      let drivers = [
+        { name: 'HAM', team: 'Ferrari', color: '#EF1A2D', progress: 0.02, speed: 0.0026, lap: 0 },
+        { name: 'NOR', team: 'McLaren', color: '#FF8700', progress: 0.015, speed: 0.0026, lap: 0 },
+        { name: 'VER', team: 'Red Bull', color: '#3330FF', progress: 0.01, speed: 0.0026, lap: 0 },
+        { name: 'RUS', team: 'Mercedes', color: '#00D2BE', progress: 0.005, speed: 0.0026, lap: 0 }
+      ];
+
+      function getTrackPoint(t) {
+        const angle = t * Math.PI * 2;
+        const cx = 300, cy = 120;
+        const rx = 240, ry = 80;
+        const x = cx + rx * Math.cos(angle) - 30 * Math.sin(2 * angle);
+        const y = cy + ry * Math.sin(angle) + 40 * Math.sin(3 * angle);
+        return { x, y };
+      }
+
+      let raceFinished = false;
+      let winnerName = "";
+
+      // 4. The Animation Loop
+      function drawFrame() {
+        // Stop processing if the user closes the popup (prevents memory leaks)
+        if (!eggOverlay.classList.contains('open')) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // --- DRAW TRACK ---
+        ctx.lineWidth = 12;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        ctx.beginPath();
+        for (let i = 0; i <= 1.01; i += 0.01) {
+          const pt = getTrackPoint(i);
+          if (i === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.strokeStyle = '#1e1e1e';
+        ctx.stroke();
+
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i <= 1.01; i += 0.01) {
+          const pt = getTrackPoint(i);
+          if (i === 0) ctx.moveTo(pt.x, pt.y);
+          else {
+            ctx.lineTo(pt.x, pt.y);
+            if (i < 0.33) ctx.strokeStyle = '#ff4444';
+            else if (i < 0.66) ctx.strokeStyle = '#4444ff';
+            else ctx.strokeStyle = '#44ff44';
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pt.x, pt.y);
+          }
+        }
+
+        // --- UPDATE & DRAW CARS ---
+        drivers.sort((a, b) => (b.lap + b.progress) - (a.lap + a.progress));
+
+        drivers.forEach((driver, index) => {
+          if (!raceFinished) {
+            const cornerBrake = Math.abs(Math.sin(driver.progress * Math.PI * 6)) * 0.0012;
+            const randomSlipstream = Math.random() * 0.0004;
+            driver.progress += (driver.speed - cornerBrake + randomSlipstream);
+            
+            if (driver.progress >= 1) {
+              driver.progress -= 1;
+              driver.lap += 1;
+              
+              // 5. The Win Condition
+              if (driver.lap === 3 && !raceFinished) {
+                raceFinished = true;
+                winnerName = driver.name;
+              }
+            }
+          }
+
+          const pt = getTrackPoint(driver.progress);
+
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 6, 0, Math.PI * 2);
+          ctx.fillStyle = driver.color;
+          ctx.fill();
+          
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(pt.x + 8, pt.y - 7, 24, 14, 4);
+          ctx.fill();
+          
+          ctx.fillStyle = '#000000';
+          ctx.font = 'bold 9px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(driver.name, pt.x + 20, pt.y + 1);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'left';
+          ctx.fillText(`P${index + 1} | ${driver.name} | Lap ${driver.lap}/3`, 15, 20 + (index * 15));
+        });
+
+        // --- DRAW WINNER OVERLAY ---
+        if (raceFinished) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.75)'; // Darken the track
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 24px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`🏁 ${winnerName} WINS! 🏁`, canvas.width / 2, canvas.height / 2);
+          return; // Kill the animation loop completely
+        }
+
+        requestAnimationFrame(drawFrame);
+      }
+
+      requestAnimationFrame(drawFrame);
+      return;
+    }
+
+    if (['rover', 'jwst', 'telescope', 'launch'].includes(cmd)) {
+      openEggWindow(cmd === 'telescope' ? 'jwst' : cmd);
+      gap(); return;
+    }
+
+    if (['rover', 'jwst', 'telescope', 'launch'].includes(cmd)) {
+      openEggWindow(cmd === 'telescope' ? 'jwst' : cmd);
+      gap(); return;
+    }
+
       gap(); return;
     }
 
