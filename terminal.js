@@ -185,11 +185,93 @@ if (termNavBtn) {
       gap(); return;
     }
 
+    if (cmd === 'rover') {
+      // Toggle off: If the rover is already on screen, remove it
+      if (window.roverActive) {
+        const existingRover = document.getElementById('marsRover');
+        if (existingRover) existingRover.remove();
+        window.roverActive = false;
+        line('// PERSEVERANCE ROVER STOWED', 'accent');
+        gap(); return;
+      }
+
+      line('// DEPLOYING PERSEVERANCE ROVER TO SURFACE...', 'accent');
+      gap();
+
+      // 1. Create the Rover Element
+      const rover = document.createElement('div');
+      rover.id = 'marsRover';
+      
+      // A clean, geometric SVG rover utilizing your existing CSS variables
+      rover.innerHTML = `
+        <svg width="48" height="36" viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <rect x="8" y="16" width="32" height="6" rx="2" fill="var(--text)" />
+          <!-- Wheels -->
+          <circle cx="12" cy="28" r="5" fill="var(--accent)" />
+          <circle cx="24" cy="28" r="5" fill="var(--accent)" />
+          <circle cx="36" cy="28" r="5" fill="var(--accent)" />
+          <!-- Camera Mast -->
+          <rect x="30" y="6" width="3" height="12" fill="var(--text)" />
+          <!-- Camera Head -->
+          <rect x="28" y="2" width="10" height="6" rx="1.5" fill="var(--accent)" />
+        </svg>
+      `;
+
+      // 2. Style and Inject
+      rover.style.position = 'fixed';
+      rover.style.bottom = '-4px'; // Sits exactly on the bottom edge of the screen
+      rover.style.left = '0px';
+      rover.style.zIndex = '9999';
+      rover.style.pointerEvents = 'none'; // Ensures it doesn't block the user from clicking footer links
+      document.body.appendChild(rover);
+
+      window.roverActive = true;
+      let roverX = window.innerWidth / 2;
+      let targetX = window.innerWidth / 2;
+      let facing = 1; // 1 for driving right, -1 for driving left
+
+      // 3. The Sensor (Tracks mouse X coordinate)
+      const updateRoverTarget = (e) => { targetX = e.clientX; };
+      window.addEventListener('mousemove', updateRoverTarget);
+
+      // 4. The Physics Engine Loop
+      function animateRover() {
+        // Kill the loop if the rover is dismissed
+        if (!window.roverActive) {
+          window.removeEventListener('mousemove', updateRoverTarget);
+          return;
+        }
+
+        // Calculate the distance between the rover and the mouse
+        const dx = targetX - roverX;
+
+        // If the mouse is far enough away, drive towards it
+        if (Math.abs(dx) > 2) {
+          roverX += dx * 0.04; // The 0.04 acts as friction/speed (lower is slower)
+          facing = dx > 0 ? 1 : -1; // Flip the SVG based on driving direction
+        }
+
+        // Apply position and flip transformations
+        rover.style.transform = `translateX(${roverX - 24}px) scaleX(${facing})`;
+
+        requestAnimationFrame(animateRover);
+      }
+
+      // Start the engine
+      requestAnimationFrame(animateRover);
+      return;
+    }
+
     /* easter eggs */
-    if (['race', 'rover', 'jwst', 'telescope', 'launch'].includes(cmd)) {
+    if (['race', 'jwst', 'telescope', 'launch'].includes(cmd)) {
       openEggWindow(cmd === 'telescope' ? 'jwst' : cmd);
       /* easter eggs */
-/* easter eggs */
+
+      
+
+
+
     if (cmd === 'race') {
       line('→ initializing F1 telemetry in modal...', 'accent');
       gap();
