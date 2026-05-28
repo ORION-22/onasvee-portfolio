@@ -68,6 +68,40 @@
 </head>
 <body>
 
+<svg id="spaceSvg" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="orbitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFEA33" />   <stop offset="25%" stop-color="#FF8700" />  <stop offset="50%" stop-color="#00D2BE" />  <stop offset="100%" stop-color="#B144FF" /> </linearGradient>
+    </defs>
+    
+    <g class="solar-system-grid">
+      <circle cx="100" cy="100" r="3" fill="#FFEA33" filter="drop-shadow(0 0 2px #FFEA33)" />
+      
+      <circle cx="100" cy="100" r="12" fill="none" stroke="#FF8700" stroke-width="0.3" opacity="0.3" stroke-dasharray="1 2"/>
+      <circle cx="88" cy="100" r="1" fill="#FF8700" opacity="0.8" />
+      
+      <circle cx="100" cy="100" r="22" fill="none" stroke="#00D2BE" stroke-width="0.3" opacity="0.4" stroke-dasharray="1 2"/>
+      <circle cx="122" cy="100" r="1.2" fill="#00D2BE" opacity="0.8" />
+      
+      <circle cx="100" cy="100" r="35" fill="none" stroke="#ff4444" stroke-width="0.3" opacity="0.3" stroke-dasharray="1 2"/>
+      <circle cx="100" cy="65" r="0.8" fill="#ff4444" opacity="0.8" />
+      
+      <circle cx="100" cy="100" r="65" fill="none" stroke="#ffaa00" stroke-width="0.3" opacity="0.2" stroke-dasharray="2 3"/>
+      <circle cx="45" cy="65" r="2.5" fill="#ffaa00" opacity="0.6" />
+      
+      <circle cx="100" cy="100" r="100" fill="none" stroke="#B144FF" stroke-width="0.3" opacity="0.2" stroke-dasharray="2 3"/>
+      <circle cx="160" cy="180" r="2" fill="#B144FF" opacity="0.6" />
+    </g>
+
+    <path id="spacePathGlow" class="space-path-glow" vector-effect="non-scaling-stroke" 
+          d="M 122,100 A 17,17 0 0,0 83,100 A 26,26 0 0,0 135,100 A 45,45 0 0,0 55,100 A 75,75 0 0,0 175,100 A 120,120 0 0,0 0,20" />
+          
+    <path id="spacePath" class="space-path" vector-effect="non-scaling-stroke" 
+          d="M 122,100 A 17,17 0 0,0 83,100 A 26,26 0 0,0 135,100 A 45,45 0 0,0 55,100 A 75,75 0 0,0 175,100 A 120,120 0 0,0 0,20" />
+    
+    <circle id="satelliteDot" cx="100" cy="100" r="1.5" fill="#ffffff" style="opacity: 0; filter: drop-shadow(0 0 3px #fff);" />
+  </svg>
+
   <div class="loader-screen" id="loaderScreen">
     <div class="loader-container">
       <div class="track-area" id="trackArea">
@@ -274,8 +308,10 @@ function finish() {
   <div class="cursor-ring" id="cursorRing"></div>
 
   <nav id="navbar">
-    <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="cursor:none;">// onasvee.dev</div>
-    <div class="nav-right">
+<div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="cursor:none;">
+      // onasvee.dev<span class="live-indicator"></span>
+    </div>
+      <div class="nav-right">
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#education">Education</a></li>
@@ -569,7 +605,7 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
       <div class="project-card reveal">
         <div class="project-num">// project_03 · Jan 2025 – Nov 2025 · Reliance Jio</div>
         <h3 class="project-title">Test Automation Management Tool</h3>
-        <p class="project-desc">Personal POC that grew into a team-wide tool — automatically organising fragmented JMeter and SoapUI test suites by module and priority tags. Groovy scripts dynamically parse test files and generate regression-ready configurations for repeatable multi-environment execution.</p>
+        <p class="project-desc">Personal POC that grew into a team-wide tool where it automatically organising fragmented JMeter and SoapUI test suites by module and priority tags. Groovy scripts dynamically parse test files and generate regression-ready configurations for repeatable multi-environment execution.</p>
         <div class="project-highlight">✦ Saved 1–2 working days per release cycle · Adopted by the QA team</div>
         <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
           <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role · initiated & led</span>
@@ -609,7 +645,7 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
       <div class="project-card reveal">
         <div class="project-num">// project_05 · Sep 2021 – Nov 2021 · Team of 4</div>
         <h3 class="project-title">PPFuel — Plastic Recycling Platform</h3>
-        <p class="project-desc">Web platform tackling plastic pollution by raising awareness around reuse, reduction, and recycling — while enabling vendors to list and sell recycled plastic products directly to consumers.</p>
+        <p class="project-desc">Web platform tackling plastic pollution by raising awareness around reuse, reduction, and recycling while enabling vendors to list and sell recycled plastic products directly to consumers.</p>
         <div style="font-family:var(--mono);font-size:11px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);">
           <span style="color:var(--accent);display:block;margin-bottom:4px;letter-spacing:0.08em;">// my role</span>
           Developed the full front-end interface in HTML, CSS, and JavaScript — ensuring a seamless experience for both vendors and customers.
@@ -964,7 +1000,7 @@ Programming & Problem Solving · Object Oriented Programming(OOP) · Principles 
     </div>
   </div>
 
-
+<div id="telemetryData" class="telemetry-data"></div>
   <!-- ── SCRIPTS ──────────────────────────────────────────── -->
   <script src="script.js" defer></script>
   <script src="terminal.js"></script>

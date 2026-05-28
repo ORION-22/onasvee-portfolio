@@ -213,3 +213,83 @@ if (isDesktop) {
 
 document.getElementById('pdfModal').addEventListener('click', function (e) { if (e.target === this) closePDF(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
+
+const telemetry = document.getElementById('telemetryData');
+
+  (function ani() {
+    cursor.style.transform = `translate(${mx - 4}px,${my - 4}px)`;
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 16}px,${ry - 16}px)`;
+
+    // Calculate mouse speed for the telemetry readout
+    const speed = Math.abs(mx - rx) + Math.abs(my - ry);
+
+    // Only update the DOM if the F1 theme is active to save performance
+    if (telemetry && document.documentElement.getAttribute('data-theme') === 'f1') {
+      telemetry.innerHTML = 
+        `POS_X : ${mx.toString().padStart(4, '0')}<br>` +
+        `POS_Y : ${my.toString().padStart(4, '0')}<br>` +
+        `VEL_∆ : ${speed.toFixed(1).padStart(4, '0')}`;
+    }
+
+    requestAnimationFrame(ani);
+  })();
+
+ /* ============================================================
+   SPACE THEME SATELLITE PATH (AUTONOMOUS LOOP)
+   ============================================================ */
+const spacePath = document.getElementById('spacePath');
+const spacePathGlow = document.getElementById('spacePathGlow');
+const satelliteDot = document.getElementById('satelliteDot');
+
+if (spacePath && spacePathGlow && satelliteDot) {
+  const pathLength = spacePath.getTotalLength();
+  
+  // Set up the dash arrays
+  [spacePath, spacePathGlow].forEach(p => {
+    p.style.strokeDasharray = pathLength;
+    p.style.strokeDashoffset = pathLength;
+  });
+
+  // Animation configuration
+  // 18 seconds gives a majestic, cinematic speed to the trajectory
+  const orbitDuration = 18000; // 12 seconds to complete one full orbit
+  let startTime = null;
+
+  function animateOrbit(timestamp) {
+    if (!startTime) startTime = timestamp;
+
+    // Only run the heavy math if the Space theme is actually active
+    if (document.documentElement.getAttribute('data-theme') === 'space') {
+      const elapsed = timestamp - startTime;
+      
+      // Calculate progress from 0.0 to 1.0, then loop automatically
+      const progress = (elapsed % orbitDuration) / orbitDuration;
+      
+      const drawLength = pathLength * progress;
+
+      // Draw the line
+      spacePath.style.strokeDashoffset = pathLength - drawLength;
+      spacePathGlow.style.strokeDashoffset = pathLength - drawLength;
+
+      // Move the probe to the leading tip
+      const pt = spacePath.getPointAtLength(drawLength);
+      satelliteDot.setAttribute('cx', pt.x);
+      satelliteDot.setAttribute('cy', pt.y);
+      satelliteDot.style.opacity = '1';
+      
+    } else {
+      // If user switches away from the Space theme, reset the timer 
+      // so it starts fresh from the sun next time they trigger it
+      startTime = null;
+      satelliteDot.style.opacity = '0';
+    }
+
+    // Call the next frame
+    requestAnimationFrame(animateOrbit);
+  }
+
+  // Kick off the infinite loop
+  requestAnimationFrame(animateOrbit);
+}
